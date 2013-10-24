@@ -60,5 +60,8 @@ namespace XlsMerger
 			return myDt;
 		}
 
+		public DataTable getDataTable(){
+			return myDt;
+		}
 	}
 }

@@ -12,6 +12,7 @@ namespace XlsMerger
 	public partial class MainWindow : Form
 	{
 		private SheetReader sheetReader = new SheetReader();
+		private SheetWriter sheetWriter = new SheetWriter();
 
 		public MainWindow()
 		{
@@ -77,6 +78,12 @@ namespace XlsMerger
 			{
 				dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 			}*/
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			
+			sheetWriter.writeToTmpFile(sheetReader.getDataTable());
 		}
 	}
 }

@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("税票导入");
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("税票管理", new System.Windows.Forms.TreeNode[] {
-            treeNode4});
-			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("系统菜单", new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("税票导入");
+			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("税票管理", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("系统菜单", new System.Windows.Forms.TreeNode[] {
+            treeNode2});
 			this.dataSet1 = new System.Data.DataSet();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.treeView1 = new System.Windows.Forms.TreeView();
@@ -80,14 +80,14 @@
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
 			this.treeView1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
 			this.treeView1.Name = "treeView1";
-			treeNode4.Name = "Node2";
-			treeNode4.Text = "税票导入";
-			treeNode5.Name = "Node1";
-			treeNode5.Text = "税票管理";
-			treeNode6.Name = "Node0";
-			treeNode6.Text = "系统菜单";
+			treeNode1.Name = "Node2";
+			treeNode1.Text = "税票导入";
+			treeNode2.Name = "Node1";
+			treeNode2.Text = "税票管理";
+			treeNode3.Name = "Node0";
+			treeNode3.Text = "系统菜单";
 			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
+            treeNode3});
 			this.treeView1.Size = new System.Drawing.Size(150, 542);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -209,6 +209,7 @@
 			this.button2.TabIndex = 2;
 			this.button2.Text = "保存数据";
 			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// button1
 			// 
