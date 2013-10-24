@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -17,6 +16,12 @@ namespace XlsMerger
 		public MainWindow()
 		{
 			InitializeComponent();
+			dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			dataGridView1.ReadOnly = true;
+			dataGridView1.RowHeadersVisible = false;
+			dataGridView1.AllowUserToResizeRows = false;
+			dataGridView1.MultiSelect = true;
+			dataGridView1.AllowUserToAddRows = false;
 		}
 
 		private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -48,14 +53,11 @@ namespace XlsMerger
 					{
 						using (file)
 						{
-							sheetReader.init(file);
-							DataTable dt = sheetReader.ConvertToDataTable();
-							dataSet1.Tables.Add(dt);
+							dataGridView1.DataSource = sheetReader.ConvertToDataTable(file);
 
-							dataGridView1.DataSource = dataSet1.Tables[0];
 							for (int i = 0; i < dataGridView1.Columns.Count; i++)
 							{
-								dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+								dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 							}
 						}
 					}
