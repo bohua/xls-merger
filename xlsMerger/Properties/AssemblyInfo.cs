@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("xlsMerger")]
+[assembly: AssemblyTitle("XlsMerger")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("xlsMerger")]
+[assembly: AssemblyProduct("XlsMerger")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c221f01d-41f4-4cb4-8770-da60b0221765")]
+[assembly: Guid("795f5035-316c-4f22-9752-00c1f39e2079")]
 
 // Version information for an assembly consists of the following four values:
 //
