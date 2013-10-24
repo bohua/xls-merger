@@ -12,14 +12,27 @@ namespace XlsMerger
 	{
 		private const string tmpFile = "tmp.xls";
 
-		public void writeToTmpFile(DataTable dt){
+        private void writeHeader(ISheet sheet, DataTable dt) {
+            IRow row = sheet.CreateRow(0);
+
+            int j = 0;
+            foreach (DataColumn col in dt.Columns)
+            {
+                ICell cell = row.CreateCell(j++);
+                cell.SetCellValue(col.Caption);
+            }
+        }
+
+		public bool writeToFile(DataTable dt, Stream stream){
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			ISheet sheet = workbook.CreateSheet();
+
+            writeHeader(sheet, dt);
 
 			IRow row;
 
 			for (int i = 0; i < dt.Rows.Count; i++) {
-				row = sheet.CreateRow(i);
+				row = sheet.CreateRow(i+1);
 
 				int j = 0;
 				foreach (DataColumn col in dt.Columns) {
@@ -28,9 +41,33 @@ namespace XlsMerger
 				}
 			}
 
-			FileStream file = new FileStream(tmpFile, FileMode.Create);
-			workbook.Write(file);
-			file.Close();
+            try
+            {
+                if (stream == null)
+                {
+                    FileStream file = new FileStream(tmpFile, FileMode.Create);
+                    workbook.Write(file);
+                    file.Close();
+                }
+                else {
+                    workbook.Write(stream);
+                }
+            }
+            catch (Exception) {
+                return false;
+            }
+
+            return true;
 		}
+
+        public void saveMetaData(List<string> meta){
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"meta.data"))
+            {
+                foreach (string line in meta)
+                {
+                    file.WriteLine(line);
+                }
+            }
+        }
 	}
 }
