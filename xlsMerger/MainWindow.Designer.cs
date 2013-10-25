@@ -69,17 +69,18 @@
 			// 
 			this.panel1.Controls.Add(this.treeView1);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-			this.panel1.Location = new System.Drawing.Point(0, 24);
-			this.panel1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.panel1.Location = new System.Drawing.Point(0, 25);
+			this.panel1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(150, 542);
+			this.panel1.Size = new System.Drawing.Size(250, 705);
 			this.panel1.TabIndex = 0;
 			// 
 			// treeView1
 			// 
 			this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeView1.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
-			this.treeView1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.treeView1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.treeView1.Name = "treeView1";
 			treeNode1.Name = "Node2";
 			treeNode1.Text = "税票导入";
@@ -89,7 +90,7 @@
 			treeNode3.Text = "系统菜单";
 			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode3});
-			this.treeView1.Size = new System.Drawing.Size(150, 542);
+			this.treeView1.Size = new System.Drawing.Size(250, 705);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
 			// 
@@ -100,21 +101,21 @@
             this.退出ToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-			this.menuStrip1.Size = new System.Drawing.Size(754, 24);
+			this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
+			this.menuStrip1.Size = new System.Drawing.Size(1008, 25);
 			this.menuStrip1.TabIndex = 1;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
 			// 关于ToolStripMenuItem
 			// 
 			this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-			this.关于ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+			this.关于ToolStripMenuItem.Size = new System.Drawing.Size(43, 19);
 			this.关于ToolStripMenuItem.Text = "关于";
 			// 
 			// 退出ToolStripMenuItem
 			// 
 			this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-			this.退出ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+			this.退出ToolStripMenuItem.Size = new System.Drawing.Size(43, 19);
 			this.退出ToolStripMenuItem.Text = "退出";
 			this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
 			// 
@@ -122,21 +123,22 @@
 			// 
 			this.cTabInvoiceManager.Controls.Add(this.cTabPageInvoiceImport);
 			this.cTabInvoiceManager.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.cTabInvoiceManager.Location = new System.Drawing.Point(150, 24);
-			this.cTabInvoiceManager.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cTabInvoiceManager.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cTabInvoiceManager.Location = new System.Drawing.Point(250, 25);
+			this.cTabInvoiceManager.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cTabInvoiceManager.Name = "cTabInvoiceManager";
 			this.cTabInvoiceManager.SelectedIndex = 0;
-			this.cTabInvoiceManager.Size = new System.Drawing.Size(604, 542);
+			this.cTabInvoiceManager.Size = new System.Drawing.Size(758, 705);
 			this.cTabInvoiceManager.TabIndex = 2;
 			// 
 			// cTabPageInvoiceImport
 			// 
 			this.cTabPageInvoiceImport.Controls.Add(this.groupBox1);
 			this.cTabPageInvoiceImport.Controls.Add(this.panel2);
-			this.cTabPageInvoiceImport.Location = new System.Drawing.Point(4, 22);
-			this.cTabPageInvoiceImport.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cTabPageInvoiceImport.Location = new System.Drawing.Point(4, 30);
+			this.cTabPageInvoiceImport.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cTabPageInvoiceImport.Name = "cTabPageInvoiceImport";
-			this.cTabPageInvoiceImport.Size = new System.Drawing.Size(596, 516);
+			this.cTabPageInvoiceImport.Size = new System.Drawing.Size(750, 671);
 			this.cTabPageInvoiceImport.TabIndex = 0;
 			this.cTabPageInvoiceImport.Text = "税票导入";
 			this.cTabPageInvoiceImport.UseVisualStyleBackColor = true;
@@ -145,11 +147,11 @@
 			// 
 			this.groupBox1.Controls.Add(this.dataGridView1);
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.groupBox1.Location = new System.Drawing.Point(0, 48);
-			this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.groupBox1.Location = new System.Drawing.Point(0, 68);
+			this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
-			this.groupBox1.Size = new System.Drawing.Size(596, 468);
+			this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
+			this.groupBox1.Size = new System.Drawing.Size(750, 603);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "导入内容主体";
@@ -158,11 +160,11 @@
 			// 
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridView1.Location = new System.Drawing.Point(2, 16);
-			this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.dataGridView1.Location = new System.Drawing.Point(3, 27);
+			this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 27;
-			this.dataGridView1.Size = new System.Drawing.Size(592, 449);
+			this.dataGridView1.Size = new System.Drawing.Size(744, 571);
 			this.dataGridView1.TabIndex = 0;
 			this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
@@ -175,18 +177,19 @@
 			this.panel2.Controls.Add(this.cBtnImportStart);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
-			this.panel2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.panel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(596, 48);
+			this.panel2.Size = new System.Drawing.Size(750, 68);
 			this.panel2.TabIndex = 0;
 			// 
 			// cBtnDeleteDoc
 			// 
 			this.cBtnDeleteDoc.Enabled = false;
-			this.cBtnDeleteDoc.Location = new System.Drawing.Point(213, 15);
-			this.cBtnDeleteDoc.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cBtnDeleteDoc.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cBtnDeleteDoc.Location = new System.Drawing.Point(377, 21);
+			this.cBtnDeleteDoc.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cBtnDeleteDoc.Name = "cBtnDeleteDoc";
-			this.cBtnDeleteDoc.Size = new System.Drawing.Size(53, 20);
+			this.cBtnDeleteDoc.Size = new System.Drawing.Size(55, 29);
 			this.cBtnDeleteDoc.TabIndex = 6;
 			this.cBtnDeleteDoc.Text = "删除";
 			this.cBtnDeleteDoc.UseVisualStyleBackColor = true;
@@ -195,10 +198,11 @@
 			// cBtnImportEnd
 			// 
 			this.cBtnImportEnd.Enabled = false;
-			this.cBtnImportEnd.Location = new System.Drawing.Point(403, 15);
-			this.cBtnImportEnd.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cBtnImportEnd.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cBtnImportEnd.Location = new System.Drawing.Point(475, 19);
+			this.cBtnImportEnd.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cBtnImportEnd.Name = "cBtnImportEnd";
-			this.cBtnImportEnd.Size = new System.Drawing.Size(70, 20);
+			this.cBtnImportEnd.Size = new System.Drawing.Size(99, 29);
 			this.cBtnImportEnd.TabIndex = 2;
 			this.cBtnImportEnd.Text = "导入结束";
 			this.cBtnImportEnd.UseVisualStyleBackColor = true;
@@ -206,20 +210,23 @@
 			// 
 			// cCbDocList
 			// 
+			this.cCbDocList.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.cCbDocList.FormattingEnabled = true;
-			this.cCbDocList.Location = new System.Drawing.Point(87, 15);
-			this.cCbDocList.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cCbDocList.ItemHeight = 21;
+			this.cCbDocList.Location = new System.Drawing.Point(116, 22);
+			this.cCbDocList.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cCbDocList.Name = "cCbDocList";
-			this.cCbDocList.Size = new System.Drawing.Size(122, 21);
+			this.cCbDocList.Size = new System.Drawing.Size(251, 29);
 			this.cCbDocList.TabIndex = 4;
 			// 
 			// cBtnExport
 			// 
 			this.cBtnExport.Enabled = false;
-			this.cBtnExport.Location = new System.Drawing.Point(477, 15);
-			this.cBtnExport.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cBtnExport.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cBtnExport.Location = new System.Drawing.Point(580, 19);
+			this.cBtnExport.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cBtnExport.Name = "cBtnExport";
-			this.cBtnExport.Size = new System.Drawing.Size(115, 20);
+			this.cBtnExport.Size = new System.Drawing.Size(159, 29);
 			this.cBtnExport.TabIndex = 3;
 			this.cBtnExport.Text = "导出连续打印税票";
 			this.cBtnExport.UseVisualStyleBackColor = true;
@@ -227,10 +234,11 @@
 			// 
 			// cBtnImportStart
 			// 
-			this.cBtnImportStart.Location = new System.Drawing.Point(14, 15);
-			this.cBtnImportStart.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.cBtnImportStart.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cBtnImportStart.Location = new System.Drawing.Point(16, 22);
+			this.cBtnImportStart.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.cBtnImportStart.Name = "cBtnImportStart";
-			this.cBtnImportStart.Size = new System.Drawing.Size(69, 20);
+			this.cBtnImportStart.Size = new System.Drawing.Size(94, 29);
 			this.cBtnImportStart.TabIndex = 1;
 			this.cBtnImportStart.Text = "导入开始";
 			this.cBtnImportStart.UseVisualStyleBackColor = true;
@@ -242,15 +250,16 @@
 			// 
 			// MainWindow
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(754, 566);
+			this.ClientSize = new System.Drawing.Size(1008, 730);
 			this.Controls.Add(this.cTabInvoiceManager);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.menuStrip1);
+			this.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
-			this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+			this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.Name = "MainWindow";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "电子表格文档汇总编辑管理程序";
