@@ -72,7 +72,7 @@ namespace XlsMerger
 			{
 				foreach (Invoice inv in meta)
 				{
-					file.WriteLine(string.Format("{0}\t{1}", inv.invoiceNumber, inv.filePath));
+					file.WriteLine(string.Format("{0}\t{1}\t{2}", inv.invoiceNumber, inv.filePath, inv.totalAmount));
 				}
 			}
 		}

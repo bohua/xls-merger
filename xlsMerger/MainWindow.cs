@@ -15,7 +15,7 @@ namespace XlsMerger
 		private SheetWriter sheetWriter = new SheetWriter();
 		//private BindingSource bs = new BindingSource();
 
-		private enum status { beforeImport, afterImport };
+		private enum status { beforeImport, duringImport, afterImport };
 		private status globalSt = status.beforeImport;
 
 		private void setStatus(status st)
@@ -27,11 +27,17 @@ namespace XlsMerger
 				cBtnImportEnd.Enabled = false;
 				globalSt = status.beforeImport;
 			}
-			else
+			else if (st == status.duringImport)
 			{
 				cBtnDeleteDoc.Enabled = true;
-				cBtnExport.Enabled = true;
+				cBtnExport.Enabled = false;
 				cBtnImportEnd.Enabled = true;
+				globalSt = status.duringImport;
+			}
+			else {
+				cBtnDeleteDoc.Enabled = false;
+				cBtnExport.Enabled = true;
+				cBtnImportEnd.Enabled = false;
 				globalSt = status.afterImport;
 			}
 		}
@@ -67,7 +73,7 @@ namespace XlsMerger
 			cCbDocList.DataSource = null;
 
 			cCbDocList.DataSource = sheetReader.getInvoiceList();
-			cCbDocList.DisplayMember = "invoiceNumber";
+			cCbDocList.DisplayMember = "face";
 
 			if (sheetReader.getInvoiceList().Count == 0)
 			{
@@ -75,7 +81,7 @@ namespace XlsMerger
 			}
 			else
 			{
-				setStatus(status.afterImport);
+				setStatus(status.duringImport);
 			}
 		}
 
@@ -85,6 +91,7 @@ namespace XlsMerger
 			{
 				sheetWriter.saveMetaData(sheetReader.getInvoiceList());
 				MessageBox.Show(@"数据保存成功！");
+				setStatus(status.afterImport);
 			}
 		}
 
@@ -135,6 +142,10 @@ namespace XlsMerger
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
+			if (e.RowIndex < 0) {
+				return;
+			}
+
 			string invoiceNumber = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString().Trim();
 
 			if (cCbDocList.Items.Contains(invoiceNumber))

@@ -50,6 +50,7 @@ namespace XlsMerger
 			{
 				IRow row = (HSSFRow)rows.Current;
 				DataRow dr = myDt.NewRow();
+				InvoiceBuilder invBuilder = new InvoiceBuilder();
 
 				for (int i = 0; i < row.LastCellNum; i++)
 				{
@@ -62,13 +63,21 @@ namespace XlsMerger
 					{
 						if (i == 1 )
 						{
-							pushImportedInvoice(new Invoice(cell.ToString().Trim(), filePath));
+							invBuilder.invoiceNumber = cell.ToString().Trim();
+						}
+						if (i == 8)
+						{
+							string[] memo = cell.ToString().Split('_');
+							invBuilder.totalAmount = memo[0];
 						}
 
 						dr[i] = cell.ToString().Trim();
 					}
 				}
 				myDt.Rows.Add(dr);
+
+				invBuilder.filePath = filePath;
+				pushImportedInvoice(invBuilder.build());
 			}
 
 			return myDt;
@@ -95,7 +104,11 @@ namespace XlsMerger
 				foreach (string line in lines)
 				{
 					string[] strs = line.Split('\t');
-					importedInvoices.Add(new Invoice(strs[0], strs[1]));
+					InvoiceBuilder builder = new InvoiceBuilder();
+					builder.invoiceNumber = strs[0];
+					builder.filePath = strs[1];
+					builder.totalAmount = strs[2];
+					importedInvoices.Add(builder.build());
 				}
 			}
 
