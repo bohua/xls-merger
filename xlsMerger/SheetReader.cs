@@ -10,8 +10,18 @@ namespace XlsMerger
 {
 	class SheetReader
 	{
+		private const string metaFile = @"meta.data";
+		private const string tmpFile = @"tmp.xls";
+
 		private DataTable myDt = new DataTable();
-        private List<string> importedInvoices = new List<string>();
+		private List<Invoice> importedInvoices = new List<Invoice>();
+
+		private void pushImportedInvoice(Invoice inv) {
+			if (!importedInvoices.Contains(inv)) {
+				importedInvoices.Add(inv);
+				//importedInvoices.Sort();
+			}
+		}
 
 		private void headerCreator(System.Collections.IEnumerator rows)
 		{
@@ -26,14 +36,13 @@ namespace XlsMerger
 			}
 		}
 
-		public DataTable ConvertToDataTable(FileStream file)
+		public DataTable convertToDataTable(FileStream file, string filePath)
 		{
-            bool InvoiceRegistered = false;
 			IWorkbook myWorkbook = new HSSFWorkbook(file);
 
 			ISheet sheet = myWorkbook.GetSheetAt(0);
 			System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-			
+
 			rows.MoveNext();
 			headerCreator(rows);
 
@@ -51,11 +60,10 @@ namespace XlsMerger
 					}
 					else
 					{
-                        if (!InvoiceRegistered && i == 1)
-                        {
-                            importedInvoices.Add(cell.ToString().Trim());
-                            InvoiceRegistered = true;
-                        }
+						if (i == 1 )
+						{
+							pushImportedInvoice(new Invoice(cell.ToString().Trim(), filePath));
+						}
 
 						dr[i] = cell.ToString().Trim();
 					}
@@ -66,35 +74,120 @@ namespace XlsMerger
 			return myDt;
 		}
 
-		public DataTable getDataTable(){
+		public DataTable getDataTable()
+		{
 			return myDt;
 		}
 
-        public List<string> getInvoiceList() {
-            return importedInvoices;
-        }
+		public List<Invoice> getInvoiceList()
+		{
+			return importedInvoices;
+		}
 
-        public void setInvoiceList(string[] list) {
-            importedInvoices.Clear();
-            foreach (string str in list) {
-                importedInvoices.Add(str);
-            }
-        }
+		public List<Invoice> loadInvoiceList()
+		{
+			importedInvoices.Clear();
 
-        public void removeRowsByInvoice( string invoiceNumber) {
-            List<DataRow> rowsToDelete = new List<DataRow>();
+			if (File.Exists(metaFile))
+			{
+				string[] lines = File.ReadAllLines(metaFile);
 
-            foreach (DataRow row in myDt.Rows) {
-                if (row[1].ToString().CompareTo(invoiceNumber) == 0) {
-                    rowsToDelete.Add(row);
-                }
-            }
+				foreach (string line in lines)
+				{
+					string[] strs = line.Split('\t');
+					importedInvoices.Add(new Invoice(strs[0], strs[1]));
+				}
+			}
 
-            foreach (DataRow row in rowsToDelete) {
-                row.Delete();
-            }
+			return importedInvoices;
+		}
 
-            importedInvoices.Remove(invoiceNumber);
-        }
+		public void removeRowsByInvoice(Invoice inv)
+		{
+			List<DataRow> rowsToDelete = new List<DataRow>();
+
+			foreach (DataRow row in myDt.Rows)
+			{
+				if (row[1].ToString().CompareTo(inv.invoiceNumber) == 0)
+				{
+					rowsToDelete.Add(row);
+				}
+			}
+
+			foreach (DataRow row in rowsToDelete)
+			{
+				row.Delete();
+			}
+
+			importedInvoices.Remove(inv);
+		}
+
+		public DataTable importInvoiceFile(string path) {
+			FileStream file = null;
+
+			try
+			{
+				if ((file = File.OpenRead(path)) != null)
+				{
+					using (file)
+					{
+						DataTable result = convertToDataTable(file, path);
+
+						return result;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+			}
+			return null;
+		}
+
+		public DataTable loadTmpFile() {
+			try
+			{
+				if (File.Exists(tmpFile))
+				{
+					DataTable result = importInvoiceFile(tmpFile);
+					loadInvoiceList();
+					return result;
+				}
+			}
+			catch (Exception ex)
+			{
+			}
+			return null;
+		}
+
+		public void clearTmp()
+		{
+			try
+			{
+				if (File.Exists(tmpFile)) { File.Delete(tmpFile); }
+				if (File.Exists(metaFile)) { File.Delete(metaFile); }
+
+				deleteImportedFiles();
+				importedInvoices.Clear();
+			}
+			catch (Exception ex) {
+			}
+		}
+
+		public void deleteImportedFiles()
+		{
+			foreach (Invoice inv in importedInvoices)
+			{
+				if (File.Exists(inv.filePath))
+				{
+					try
+					{
+						File.Delete(inv.filePath);
+					}
+					catch (Exception ex)
+					{
+					}
+				}
+			}
+		}
 	}
 }

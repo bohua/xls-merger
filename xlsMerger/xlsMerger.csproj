@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Invoice.cs" />
     <Compile Include="SheetWriter.cs" />
     <Compile Include="SheetReader.cs" />
     <Compile Include="MainWindow.cs">
