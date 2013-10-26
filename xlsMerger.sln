@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XlsMerger", "XlsMerger\XlsMerger.csproj", "{0EED2121-2D0D-40FC-8C02-55DFFABA42E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegLib", "Registery\RegLib.csproj", "{997CAAEA-CF57-4F30-8F93-0CB524FE4BA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{0EED2121-2D0D-40FC-8C02-55DFFABA42E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EED2121-2D0D-40FC-8C02-55DFFABA42E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EED2121-2D0D-40FC-8C02-55DFFABA42E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997CAAEA-CF57-4F30-8F93-0CB524FE4BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997CAAEA-CF57-4F30-8F93-0CB524FE4BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997CAAEA-CF57-4F30-8F93-0CB524FE4BA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997CAAEA-CF57-4F30-8F93-0CB524FE4BA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

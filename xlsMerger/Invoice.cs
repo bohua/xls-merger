@@ -23,6 +23,10 @@ namespace XlsMerger
 			}
 			return false;
 		}
+
+        public bool hasFile(string filePath) {
+            return this.filePath.Equals(filePath);
+        }
 	}
 
 	class InvoiceBuilder {

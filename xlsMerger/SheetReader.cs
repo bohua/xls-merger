@@ -136,6 +136,18 @@ namespace XlsMerger
 		}
 
 		public DataTable importInvoiceFile(string path) {
+            //Precheck file imported or not
+            bool existedFile = false;
+            foreach (Invoice inv in this.importedInvoices) {
+                if (inv.hasFile(path)) {
+                    existedFile = true;
+                    break;
+                }
+            }
+            if (existedFile) {
+                return null;
+            }
+
 			FileStream file = null;
 
 			try
@@ -181,6 +193,7 @@ namespace XlsMerger
 
 				deleteImportedFiles();
 				importedInvoices.Clear();
+                myDt.Clear();
 			}
 			catch (Exception ex) {
 			}

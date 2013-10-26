@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using JCodesRegLib;
 
 namespace XlsMerger
 {
     static class Program
     {
+        public enum SystemRegistryStatus { NotRegisted, Registed, TrialWithDayLimit, TrialWithFuncLimit };
+
+        static public RegClass registry;
+        static public SystemRegistryStatus systemRegistryStatus = Program.SystemRegistryStatus.NotRegisted;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -14,7 +20,22 @@ namespace XlsMerger
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            
+            WelcomeForm welcome = new WelcomeForm();
+            welcome.Show();
+
+            registry = new RegClass(-1, "XlsMerger");
+
+            if (!Program.registry.hasRegisted())
+            {
+                welcome.Close();
+                new RegistryForm().ShowDialog();
+            }
+            else {
+                Program.systemRegistryStatus = Program.SystemRegistryStatus.Registed;
+            }
+
+            Application.Run(new MainWindow(welcome));
         }
     }
 }
