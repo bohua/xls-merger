@@ -10,8 +10,6 @@ namespace XlsMerger
 {
 	class SheetWriter
 	{
-		private const string tmpFile = "tmp.xls";
-
 		private void writeHeader(ISheet sheet, DataTable dt)
 		{
 			IRow row = sheet.CreateRow(0);
@@ -49,7 +47,7 @@ namespace XlsMerger
 			{
 				if (stream == null)
 				{
-					FileStream file = new FileStream(tmpFile, FileMode.Create);
+                    FileStream file = new FileStream(Program.tmpFile, FileMode.Create);
 					workbook.Write(file);
 					file.Close();
 				}
@@ -68,7 +66,7 @@ namespace XlsMerger
 
 		public void saveMetaData(List<Invoice> meta)
 		{
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"meta.data"))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Program.metaFile))
 			{
 				foreach (Invoice inv in meta)
 				{

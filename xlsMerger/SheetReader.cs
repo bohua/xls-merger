@@ -10,9 +10,6 @@ namespace XlsMerger
 {
 	class SheetReader
 	{
-		private const string metaFile = @"meta.data";
-		private const string tmpFile = @"tmp.xls";
-
 		private DataTable myDt = new DataTable();
 		private List<Invoice> importedInvoices = new List<Invoice>();
 
@@ -97,9 +94,9 @@ namespace XlsMerger
 		{
 			importedInvoices.Clear();
 
-			if (File.Exists(metaFile))
+			if (File.Exists(Program.metaFile))
 			{
-				string[] lines = File.ReadAllLines(metaFile);
+                string[] lines = File.ReadAllLines(Program.metaFile);
 
 				foreach (string line in lines)
 				{
@@ -171,9 +168,9 @@ namespace XlsMerger
 		public DataTable loadTmpFile() {
 			try
 			{
-				if (File.Exists(tmpFile))
+				if (File.Exists(Program.tmpFile))
 				{
-					DataTable result = importInvoiceFile(tmpFile);
+                    DataTable result = importInvoiceFile(Program.tmpFile);
 					loadInvoiceList();
 					return result;
 				}
@@ -188,8 +185,8 @@ namespace XlsMerger
 		{
 			try
 			{
-				if (File.Exists(tmpFile)) { File.Delete(tmpFile); }
-				if (File.Exists(metaFile)) { File.Delete(metaFile); }
+                if (File.Exists(Program.tmpFile)) { File.Delete(Program.tmpFile); }
+                if (File.Exists(Program.metaFile)) { File.Delete(Program.metaFile); }
 
 				deleteImportedFiles();
 				importedInvoices.Clear();

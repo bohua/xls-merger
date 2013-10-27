@@ -11,6 +11,10 @@ namespace XlsMerger
 
         static public RegClass registry;
         static public SystemRegistryStatus systemRegistryStatus = Program.SystemRegistryStatus.NotRegisted;
+        static public string workingPath = System.IO.Directory.GetCurrentDirectory();
+        static public string metaFile = workingPath + @"\meta.data";
+        static public string tmpFile = workingPath + @"\tmp.data";
+
 
         /// <summary>
         /// The main entry point for the application.
