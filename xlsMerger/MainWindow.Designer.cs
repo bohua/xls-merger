@@ -72,7 +72,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 29);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(250, 692);
+            this.panel1.Size = new System.Drawing.Size(198, 692);
             this.panel1.TabIndex = 0;
             // 
             // treeView1
@@ -90,7 +90,7 @@
             treeNode3.Text = "系统菜单";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode3});
-            this.treeView1.Size = new System.Drawing.Size(250, 692);
+            this.treeView1.Size = new System.Drawing.Size(198, 692);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -102,7 +102,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1182, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1006, 29);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,11 +125,11 @@
             this.cTabInvoiceManager.Controls.Add(this.cTabPageInvoiceImport);
             this.cTabInvoiceManager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cTabInvoiceManager.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cTabInvoiceManager.Location = new System.Drawing.Point(250, 29);
+            this.cTabInvoiceManager.Location = new System.Drawing.Point(198, 29);
             this.cTabInvoiceManager.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cTabInvoiceManager.Name = "cTabInvoiceManager";
             this.cTabInvoiceManager.SelectedIndex = 0;
-            this.cTabInvoiceManager.Size = new System.Drawing.Size(932, 692);
+            this.cTabInvoiceManager.Size = new System.Drawing.Size(808, 692);
             this.cTabInvoiceManager.TabIndex = 2;
             // 
             // cTabPageInvoiceImport
@@ -139,7 +139,7 @@
             this.cTabPageInvoiceImport.Location = new System.Drawing.Point(4, 36);
             this.cTabPageInvoiceImport.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cTabPageInvoiceImport.Name = "cTabPageInvoiceImport";
-            this.cTabPageInvoiceImport.Size = new System.Drawing.Size(924, 652);
+            this.cTabPageInvoiceImport.Size = new System.Drawing.Size(800, 652);
             this.cTabPageInvoiceImport.TabIndex = 0;
             this.cTabPageInvoiceImport.Text = "税票导入";
             this.cTabPageInvoiceImport.UseVisualStyleBackColor = true;
@@ -148,11 +148,11 @@
             // 
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 68);
+            this.groupBox1.Location = new System.Drawing.Point(0, 111);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.groupBox1.Size = new System.Drawing.Size(924, 584);
+            this.groupBox1.Size = new System.Drawing.Size(800, 541);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "导入内容主体";
@@ -165,9 +165,10 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 27;
-            this.dataGridView1.Size = new System.Drawing.Size(918, 547);
+            this.dataGridView1.Size = new System.Drawing.Size(794, 504);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // panel2
             // 
@@ -180,14 +181,14 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(924, 68);
+            this.panel2.Size = new System.Drawing.Size(800, 111);
             this.panel2.TabIndex = 0;
             // 
             // cBtnDeleteDoc
             // 
             this.cBtnDeleteDoc.Enabled = false;
             this.cBtnDeleteDoc.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cBtnDeleteDoc.Location = new System.Drawing.Point(469, 16);
+            this.cBtnDeleteDoc.Location = new System.Drawing.Point(487, 61);
             this.cBtnDeleteDoc.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cBtnDeleteDoc.Name = "cBtnDeleteDoc";
             this.cBtnDeleteDoc.Size = new System.Drawing.Size(72, 35);
@@ -200,7 +201,7 @@
             // 
             this.cBtnImportEnd.Enabled = false;
             this.cBtnImportEnd.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cBtnImportEnd.Location = new System.Drawing.Point(547, 17);
+            this.cBtnImportEnd.Location = new System.Drawing.Point(168, 17);
             this.cBtnImportEnd.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cBtnImportEnd.Name = "cBtnImportEnd";
             this.cBtnImportEnd.Size = new System.Drawing.Size(152, 35);
@@ -214,17 +215,17 @@
             this.cCbDocList.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cCbDocList.FormattingEnabled = true;
             this.cCbDocList.ItemHeight = 27;
-            this.cCbDocList.Location = new System.Drawing.Point(142, 16);
+            this.cCbDocList.Location = new System.Drawing.Point(14, 62);
             this.cCbDocList.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cCbDocList.Name = "cCbDocList";
-            this.cCbDocList.Size = new System.Drawing.Size(321, 35);
+            this.cCbDocList.Size = new System.Drawing.Size(467, 35);
             this.cCbDocList.TabIndex = 4;
             // 
             // cBtnExport
             // 
             this.cBtnExport.Enabled = false;
             this.cBtnExport.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cBtnExport.Location = new System.Drawing.Point(705, 17);
+            this.cBtnExport.Location = new System.Drawing.Point(350, 16);
             this.cBtnExport.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cBtnExport.Name = "cBtnExport";
             this.cBtnExport.Size = new System.Drawing.Size(209, 35);
@@ -253,7 +254,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1182, 721);
+            this.ClientSize = new System.Drawing.Size(1006, 721);
             this.Controls.Add(this.cTabInvoiceManager);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);

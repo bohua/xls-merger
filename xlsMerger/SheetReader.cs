@@ -58,10 +58,12 @@ namespace XlsMerger
 					}
 					else
 					{
+                        //单据号
 						if (i == 1 )
 						{
 							invBuilder.invoiceNumber = cell.ToString().Trim();
 						}
+                        //备注
 						if (i == 8)
 						{
 							string[] memo = cell.ToString().Split('_');

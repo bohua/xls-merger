@@ -257,5 +257,32 @@ namespace XlsMerger
         {
             new AboutForm().ShowDialog();
         }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            //对单据日期格式做特殊处理
+            if (e.ColumnIndex == 2)
+            {
+                if (e.Value != null)
+                {
+                    try
+                    {
+                        DateTime theDate = DateTime.ParseExact((string)e.Value,
+                                        "M/dd/yy",
+                                        System.Globalization.CultureInfo.InvariantCulture);
+
+                        String dateString = theDate.ToString("yyyy-MM-dd");
+                        e.Value = dateString;
+                        e.FormattingApplied = true;
+                    }
+                    catch (FormatException)
+                    {
+                        // Set to false in case there are other handlers interested trying to
+                        // format this DataGridViewCellFormattingEventArgs instance.
+                        e.FormattingApplied = false;
+                    }
+                }
+            }
+        }
 	}
 }
