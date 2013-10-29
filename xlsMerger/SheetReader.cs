@@ -28,7 +28,7 @@ namespace XlsMerger
 				for (int j = 0; j < headerRow.LastCellNum; j++)
 				{
 					ICell header = headerRow.GetCell(j);
-					myDt.Columns.Add(header.ToString().Trim());
+					DataColumn col = myDt.Columns.Add(header.ToString().Trim());
 				}
 			}
 		}
@@ -58,6 +58,20 @@ namespace XlsMerger
 					}
 					else
 					{
+						//单据日期特殊处理
+						if (i == 2)
+						{
+							try
+							{
+								DateTime dt = cell.DateCellValue;
+								dr[i] = dt.Date.ToString("yyyy-MM-dd");
+							}
+							catch (Exception ex) {
+								dr[i] = cell.ToString().Trim();
+							}
+							continue;
+						}
+
                         //单据号
 						if (i == 1 )
 						{

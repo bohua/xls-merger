@@ -258,6 +258,7 @@ namespace XlsMerger
             new AboutForm().ShowDialog();
         }
 
+		/*
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             //对单据日期格式做特殊处理
@@ -271,7 +272,8 @@ namespace XlsMerger
                                         "M/dd/yy",
                                         System.Globalization.CultureInfo.InvariantCulture);
 
-                        String dateString = theDate.ToString("yyyy-MM-dd");
+						DateTime date = (DateTime)e.Value;
+						ToString("yyyy-MM-dd");
                         e.Value = dateString;
                         e.FormattingApplied = true;
                     }
@@ -283,6 +285,6 @@ namespace XlsMerger
                     }
                 }
             }
-        }
+        }*/
 	}
 }

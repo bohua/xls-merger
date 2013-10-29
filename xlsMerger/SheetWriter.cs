@@ -41,13 +41,21 @@ namespace XlsMerger
 					ICell cell = row.CreateCell(j++);
                     string content = dt.Rows[i][col.Caption].ToString();
 
+					/*
                     //对单据日期格式做特殊处理
                     if (col.Caption.Equals("单据日期")) {
-                        DateTime theDate = DateTime.ParseExact(content,
-                                        "M/dd/yy",
-                                        System.Globalization.CultureInfo.InvariantCulture);
-                        content = theDate.ToString("yyyy-MM-dd");
+						try
+						{
+							DateTime theDate = DateTime.ParseExact(content,
+											"M-dd-yy",
+											System.Globalization.CultureInfo.InvariantCulture);
+							content = theDate.ToString("yyyy-MM-dd");
+						}
+						catch (Exception ex) {
+							
+						}
                     }
+					*/
 
 					cell.SetCellValue(content);
 				}
