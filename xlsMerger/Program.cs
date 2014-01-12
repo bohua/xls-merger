@@ -14,7 +14,10 @@ namespace XlsMerger
         static public string workingPath = System.IO.Directory.GetCurrentDirectory();
         static public string metaFile = workingPath + @"\meta.data";
         static public string tmpFile = workingPath + @"\tmp.data";
+        static public string tmpRukuFile = workingPath + @"\tmpRuku.data";
 
+        static public string printTemplateRuku = workingPath + @"\Resources\printTemplateRuku.tpl";
+        static public string printTemplateChuku = workingPath + @"\Resources\printTemplateChuku.tpl";
 
         /// <summary>
         /// The main entry point for the application.
@@ -38,6 +41,18 @@ namespace XlsMerger
             else {
                 Program.systemRegistryStatus = Program.SystemRegistryStatus.Registed;
             }
+
+            /*
+            Ruku rk = new Ruku();
+            rk.rk_dh = "1";
+            RukuSheet ruku = new RukuSheet();
+            ruku.Push(rk);
+            ruku.filePath = "a.file";
+            List<RukuSheet> list = new List<RukuSheet>();
+            RukuSheetWriter w = new RukuSheetWriter();
+            w.saveToFile(list);
+            w.loadFromFile();
+            */
 
             Application.Run(new MainWindow(welcome));
         }

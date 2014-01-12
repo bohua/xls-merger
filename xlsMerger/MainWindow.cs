@@ -13,7 +13,9 @@ namespace XlsMerger
 	{
         private WelcomeForm welcome;
 		private SheetReader sheetReader = new SheetReader();
+        private RukuSheetReader rukuSheetReader = new RukuSheetReader();
 		private SheetWriter sheetWriter = new SheetWriter();
+        private RukuSheetWriter rukuSheetWriter = new RukuSheetWriter();
         private IniFile settings = new IniFile("Settings.ini");
 		//private BindingSource bs = new BindingSource();
 
@@ -198,6 +200,7 @@ namespace XlsMerger
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
 			reloadData();
+            reloadRukuData();
             welcome.Close();
 		}
 
@@ -258,7 +261,130 @@ namespace XlsMerger
             new AboutForm().ShowDialog();
         }
 
-		/*
+        private void cTabInvoiceManager_SelectedIndexChanged(object sender, EventArgs e)
+        {   
+
+        }
+
+        #region 公共方法
+
+        private string[] importFiles(string fileType) {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = this.settings.Read("OpenDirectory", "System");
+            openFileDialog1.Filter = "Execel Sheets (*.xls)|*.xls|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.Multiselect = true;
+            openFileDialog1.Title = "选择单据（可多选）";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //Update the lastOpend Directory
+                this.settings.Write("OpenDirectory", Path.GetDirectoryName(openFileDialog1.FileName), "System");
+
+                if (Program.systemRegistryStatus == Program.SystemRegistryStatus.NotRegisted)
+                {
+                    int imported = 0;
+                    switch (fileType){
+                        case "invoice": imported = sheetReader.getInvoiceList().Count;
+                            break;
+                        case "ruku": imported = rukuSheetReader.getRukuList().Count;
+                            break;
+                        //case "chuku": imported = sheetReader.getChukuList().Count;
+                    }
+                    if (imported + openFileDialog1.FileNames.Length > 2)
+                    {
+                        MessageBox.Show("试用版只能导入最多两个文件！", "注册提示");
+                        return null;
+                    }
+                }
+
+                return openFileDialog1.FileNames;
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region 入库单界面代码
+
+        private void reloadRukuData()
+        {
+            List<RukuSheet> tmp = rukuSheetWriter.loadFromFile();
+
+            if (tmp == null) {
+                return;
+            }
+            rukuSheetReader.setRukuList(tmp);
+            dataGridView2.DataSource = rukuSheetReader.getDataTable();
+
+            for (int i = 0; i < dataGridView2.Columns.Count; i++)
+            {
+                dataGridView2.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            }
+            refreshRukuList();
+        }
+
+        private void refreshRukuList()
+        {
+            cCbboxRuku.DataBindings.Clear();
+            cCbboxRuku.DataSource = null;
+            cCbboxRuku.Items.Clear();
+
+            List<RukuSheet> rukuList = rukuSheetReader.getRukuList();
+            cCbboxRuku.DataSource = rukuList;
+            cCbboxRuku.DisplayMember = "face";
+        }
+
+        private void cBtnRukuStart_Click(object sender, EventArgs e)
+        {
+            string[] rukuFiles = importFiles("ruku");
+
+            if (rukuFiles == null) {
+                return;
+            }
+
+            foreach (string path in rukuFiles)
+            {
+                DataTable importResult = rukuSheetReader.importRukuSheets(path);
+
+                if (importResult == null)
+                {
+                    MessageBox.Show(@"单据[" + path + @"]导入失败，原因：可能是重复导入或文件已损坏!");
+                }
+                else
+                {
+                    dataGridView2.DataSource = importResult;
+                }
+            }
+
+            for (int i = 0; i < dataGridView2.Columns.Count; i++)
+            {
+                dataGridView2.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            }
+
+            refreshRukuList();
+
+            //Update tmp files
+
+            rukuSheetWriter.saveToFile(rukuSheetReader.getRukuList());
+            /*
+            sheetWriter.saveRukuMetaData(sheetReader.getInvoiceList());
+            setStatusRuku(status.duringImport);
+             */
+            
+        }
+
+        private void cBtnRukuPrint_Click(object sender, EventArgs e)
+        {
+            PrintHelper ph = new PrintHelper();
+            ph.PrintMyExcelFile();
+        }
+#endregion
+
+
+        /*
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             //对单据日期格式做特殊处理
