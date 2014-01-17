@@ -232,5 +232,9 @@ namespace XlsMerger
 
 			return js.ToString();
 		}
+
+		public int getPageSize(){
+			return pageSize;
+		}
 	}
 }

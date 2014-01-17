@@ -19,13 +19,32 @@ namespace XlsMerger
 
 		public void generatePrintDoc(RukuPrintSheet printSheet)
 		{
+			int src, dst;
+			HSSFSheet sheet;
 			FileStream fs = new FileStream(Program.printTemplateRuku, FileMode.Open, FileAccess.ReadWrite);
 			HSSFWorkbook workbook = new HSSFWorkbook(fs);
 			fs.Close();
 
-			CopyRow(workbook, (HSSFSheet)workbook.GetSheetAt(0), 0, 17);
+			for (int i = 0; i < (printSheet.getPageSize() + 9); i++)
+			{
+				src = i;
+				dst = printSheet.getPageSize() + 10 + src;
+				sheet = (HSSFSheet)workbook.GetSheetAt(0);
 
-			fs = new FileStream(Program.printTemplateRuku, FileMode.Create);
+				CopyRow(workbook, sheet, src, dst);
+
+				if (src == 0)
+				{
+					sheet.GetRow(dst).HeightInPoints = 25;
+				}
+				else {
+					sheet.GetRow(dst).HeightInPoints = 18;
+				}
+
+				
+			}
+
+			fs = new FileStream(Program.printDoc, FileMode.Create);
 
 			// save the changes
 			workbook.Write(fs);
@@ -150,6 +169,7 @@ namespace XlsMerger
 				}
 			}
 
+			/*
 			// If there are are any merged regions in the source row, copy to new row
 			for (int i = 0; i < worksheet.NumMergedRegions; i++)
 			{
@@ -165,6 +185,7 @@ namespace XlsMerger
 					worksheet.AddMergedRegion(newCellRangeAddress);
 				}
 			}
+			 */
 
 		}
 

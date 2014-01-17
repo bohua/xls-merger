@@ -118,8 +118,8 @@
     <None Include="Resources\printTemplateChuku.tpl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\printTemplateRuku.tpl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="Resources\printTemplateRuku.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Xls\上海工具公司11390_20.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
