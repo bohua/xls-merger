@@ -8,17 +8,17 @@ using System.Data;
 
 namespace XlsMerger
 {
-    class RukuSheetWriter : SheetWriter
-    {
-        /*
-                  public void saveToFile(DataTable dt, ){
-             FileStream file = new FileStream(Program.tmpRukuFile, FileMode.Create);
+	class RukuSheetWriter : SheetWriter
+	{
+		/*
+				  public void saveToFile(DataTable dt, ){
+			 FileStream file = new FileStream(Program.tmpRukuFile, FileMode.Create);
 
-             writeToFile(dt, file);
-         }
-         private void saveMetaToFile(List<RukuSheet> meta)
+			 writeToFile(dt, file);
+		 }
+		 private void saveMetaToFile(List<RukuSheet> meta)
 		 {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Program.metaRukuFile))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(Program.metaRukuFile))
 			{
 				foreach (RukuSheet sheet in meta)
 				{
@@ -26,25 +26,27 @@ namespace XlsMerger
 				}
 			}
 		 }
-         */
+		 */
 
-        public void saveToFile(List<RukuSheet> list) {
-            ObjectToSerialize objectToSerialize = new ObjectToSerialize();
-            Serializer serializer = new Serializer();
-            //save the car list to a file          
-            objectToSerialize.RukuSheets = list;            
-            serializer.SerializeObject("tmpRuku.txt", objectToSerialize);
-        }
+		public void saveToFile(RukuPrintSheet printSheet)
+		{
+			ObjectToSerialize objectToSerialize = new ObjectToSerialize();
+			Serializer serializer = new Serializer();
+			//save the car list to a file          
+			objectToSerialize.RukuPrintSheet = printSheet;
+			serializer.SerializeObject("tmpRuku.txt", objectToSerialize);
+		}
 
-        public List<RukuSheet> loadFromFile()
-        {
-            ObjectToSerialize objectToSerialize = new ObjectToSerialize();
-            Serializer serializer = new Serializer();
-            objectToSerialize = serializer.DeSerializeObject("tmpRuku.txt");
-            if (objectToSerialize == null) { 
-                return null;
-            }
-            return objectToSerialize.RukuSheets;
-        }
-    }
+		public RukuPrintSheet loadFromFile()
+		{
+			ObjectToSerialize objectToSerialize = new ObjectToSerialize();
+			Serializer serializer = new Serializer();
+			objectToSerialize = serializer.DeSerializeObject("tmpRuku.txt");
+			if (objectToSerialize == null)
+			{
+				return null;
+			}
+			return objectToSerialize.RukuPrintSheet;
+		}
+	}
 }

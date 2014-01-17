@@ -17,6 +17,7 @@ namespace XlsMerger
 		private SheetWriter sheetWriter = new SheetWriter();
 		private RukuSheetWriter rukuSheetWriter = new RukuSheetWriter();
 		private IniFile settings = new IniFile("Settings.ini");
+		private RukuPrintSheet rukuPrintSheet = new RukuPrintSheet(new List<RukuSheet>(), "沈洪伟", "李成伟");
 		//private BindingSource bs = new BindingSource();
 
 		private enum status { beforeImport = 1, duringImport = 2, afterImport = 3 };
@@ -294,7 +295,7 @@ namespace XlsMerger
 					{
 						case "invoice": imported = sheetReader.getInvoiceList().Count;
 							break;
-						case "ruku": imported = rukuSheetReader.getRukuList().Count;
+						case "ruku": imported = this.rukuPrintSheet.sheetList.Count;
 							break;
 						//case "chuku": imported = sheetReader.getChukuList().Count;
 					}
@@ -317,15 +318,23 @@ namespace XlsMerger
 
 		private void reloadRukuData()
 		{
-			List<RukuSheet> tmp = rukuSheetWriter.loadFromFile();
+			RukuPrintSheet tmp = rukuSheetWriter.loadFromFile();
 
 			if (tmp == null)
 			{
 				return;
 			}
-			rukuSheetReader.setRukuList(tmp);
+
+			this.rukuPrintSheet = tmp;
+			rukuSheetReader.setRukuList(tmp.sheetList);
 
 			refreshRukuList();
+		}
+
+		private void setAmounts(string je, string se, string js) {
+			cLabelJE.Text = "金额合计:" + je;
+			cLabelSE.Text = "税额合计:" + se;
+			cLabelJS.Text = "价税合计:" + js;
 		}
 
 		private void refreshRukuList()
@@ -340,10 +349,17 @@ namespace XlsMerger
 			cCbboxRuku.DataSource = null;
 			cCbboxRuku.Items.Clear();
 
-			List<RukuSheet> rukuList = rukuSheetReader.getRukuList();
-			cCbboxRuku.DataSource = rukuList;
+			this.rukuPrintSheet.sheetList = rukuSheetReader.getRukuList();
+			cCbboxRuku.DataSource = rukuPrintSheet.sheetList;
 			cCbboxRuku.DisplayMember = "face";
+
+			cTxtboxRukuMaster.Text = rukuPrintSheet.masterName;
+			cTxtboxVerifier.Text = rukuPrintSheet.verifierName;
+
+			setAmounts(rukuPrintSheet.getJE(), rukuPrintSheet.getSE(), rukuPrintSheet.getJS());
 		}
+
+		//private 
 
 		private void cBtnRukuStart_Click(object sender, EventArgs e)
 		{
@@ -367,7 +383,7 @@ namespace XlsMerger
 			refreshRukuList();
 
 			//Update tmp files
-			rukuSheetWriter.saveToFile(rukuSheetReader.getRukuList());
+			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 			/*
 			sheetWriter.saveRukuMetaData(sheetReader.getInvoiceList());
 			setStatusRuku(status.duringImport);
@@ -377,8 +393,9 @@ namespace XlsMerger
 
 		private void cBtnRukuPrint_Click(object sender, EventArgs e)
 		{
+
 			PrintHelper ph = new PrintHelper();
-			ph.PrintMyExcelFile();
+			ph.generatePrintDoc(this.rukuPrintSheet);
 		}
 
 		private void cBtnDelRuku_Click(object sender, EventArgs e)
@@ -398,9 +415,17 @@ namespace XlsMerger
 				refreshRukuList();
 
 				//Update tmp files
-				rukuSheetWriter.saveToFile(rukuSheetReader.getRukuList());
+				rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 			}
 		}
+
+		private void cTxtboxRukuMaster_Leave(object sender, EventArgs e)
+		{
+			this.rukuPrintSheet.masterName = cTxtboxRukuMaster.Text;
+			this.rukuPrintSheet.verifierName = cTxtboxVerifier.Text;
+			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
+		}
+
 		#endregion
 	}
 }

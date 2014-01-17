@@ -55,9 +55,9 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.dataGridView2 = new System.Windows.Forms.DataGridView();
 			this.panel4 = new System.Windows.Forms.Panel();
-			this.cLabelTotal = new System.Windows.Forms.Label();
-			this.cLabelTax = new System.Windows.Forms.Label();
-			this.cLabelMargin = new System.Windows.Forms.Label();
+			this.cLabelJS = new System.Windows.Forms.Label();
+			this.cLabelSE = new System.Windows.Forms.Label();
+			this.cLabelJE = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.cTxtboxVerifier = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -329,9 +329,9 @@
 			// 
 			// panel4
 			// 
-			this.panel4.Controls.Add(this.cLabelTotal);
-			this.panel4.Controls.Add(this.cLabelTax);
-			this.panel4.Controls.Add(this.cLabelMargin);
+			this.panel4.Controls.Add(this.cLabelJS);
+			this.panel4.Controls.Add(this.cLabelSE);
+			this.panel4.Controls.Add(this.cLabelJE);
 			this.panel4.Controls.Add(this.label2);
 			this.panel4.Controls.Add(this.cTxtboxVerifier);
 			this.panel4.Controls.Add(this.label1);
@@ -342,35 +342,35 @@
 			this.panel4.Size = new System.Drawing.Size(800, 55);
 			this.panel4.TabIndex = 4;
 			// 
-			// cLabelTotal
+			// cLabelJS
 			// 
-			this.cLabelTotal.AutoSize = true;
-			this.cLabelTotal.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cLabelTotal.Location = new System.Drawing.Point(621, 17);
-			this.cLabelTotal.Name = "cLabelTotal";
-			this.cLabelTotal.Size = new System.Drawing.Size(65, 20);
-			this.cLabelTotal.TabIndex = 9;
-			this.cLabelTotal.Text = "价税合计";
+			this.cLabelJS.AutoSize = true;
+			this.cLabelJS.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cLabelJS.Location = new System.Drawing.Point(621, 17);
+			this.cLabelJS.Name = "cLabelJS";
+			this.cLabelJS.Size = new System.Drawing.Size(65, 20);
+			this.cLabelJS.TabIndex = 9;
+			this.cLabelJS.Text = "价税合计";
 			// 
-			// cLabelTax
+			// cLabelSE
 			// 
-			this.cLabelTax.AutoSize = true;
-			this.cLabelTax.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cLabelTax.Location = new System.Drawing.Point(490, 17);
-			this.cLabelTax.Name = "cLabelTax";
-			this.cLabelTax.Size = new System.Drawing.Size(65, 20);
-			this.cLabelTax.TabIndex = 7;
-			this.cLabelTax.Text = "税额合计";
+			this.cLabelSE.AutoSize = true;
+			this.cLabelSE.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cLabelSE.Location = new System.Drawing.Point(490, 17);
+			this.cLabelSE.Name = "cLabelSE";
+			this.cLabelSE.Size = new System.Drawing.Size(65, 20);
+			this.cLabelSE.TabIndex = 7;
+			this.cLabelSE.Text = "税额合计";
 			// 
-			// cLabelMargin
+			// cLabelJE
 			// 
-			this.cLabelMargin.AutoSize = true;
-			this.cLabelMargin.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.cLabelMargin.Location = new System.Drawing.Point(353, 17);
-			this.cLabelMargin.Name = "cLabelMargin";
-			this.cLabelMargin.Size = new System.Drawing.Size(65, 20);
-			this.cLabelMargin.TabIndex = 5;
-			this.cLabelMargin.Text = "金额合计";
+			this.cLabelJE.AutoSize = true;
+			this.cLabelJE.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.cLabelJE.Location = new System.Drawing.Point(353, 17);
+			this.cLabelJE.Name = "cLabelJE";
+			this.cLabelJE.Size = new System.Drawing.Size(65, 20);
+			this.cLabelJE.TabIndex = 5;
+			this.cLabelJE.Text = "金额合计";
 			// 
 			// label2
 			// 
@@ -387,6 +387,8 @@
 			this.cTxtboxVerifier.Name = "cTxtboxVerifier";
 			this.cTxtboxVerifier.Size = new System.Drawing.Size(88, 29);
 			this.cTxtboxVerifier.TabIndex = 2;
+			this.cTxtboxVerifier.Text = "李成伟";
+			this.cTxtboxVerifier.Leave += new System.EventHandler(this.cTxtboxRukuMaster_Leave);
 			// 
 			// label1
 			// 
@@ -403,6 +405,8 @@
 			this.cTxtboxRukuMaster.Name = "cTxtboxRukuMaster";
 			this.cTxtboxRukuMaster.Size = new System.Drawing.Size(90, 29);
 			this.cTxtboxRukuMaster.TabIndex = 0;
+			this.cTxtboxRukuMaster.Text = "沈洪伟";
+			this.cTxtboxRukuMaster.Leave += new System.EventHandler(this.cTxtboxRukuMaster_Leave);
 			// 
 			// panel3
 			// 
@@ -547,9 +551,9 @@
         private System.Windows.Forms.Button cBtnRukuPrint;
         private System.Windows.Forms.Button cBtnRukuStart;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label cLabelTotal;
-        private System.Windows.Forms.Label cLabelTax;
-        private System.Windows.Forms.Label cLabelMargin;
+        private System.Windows.Forms.Label cLabelJS;
+        private System.Windows.Forms.Label cLabelSE;
+        private System.Windows.Forms.Label cLabelJE;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox cTxtboxVerifier;
         private System.Windows.Forms.Label label1;

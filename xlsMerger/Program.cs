@@ -16,7 +16,7 @@ namespace XlsMerger
         static public string tmpFile = workingPath + @"\tmp.data";
         static public string tmpRukuFile = workingPath + @"\tmpRuku.data";
 
-        static public string printTemplateRuku = workingPath + @"\Resources\printTemplateRuku.tpl";
+        static public string printTemplateRuku = workingPath + @"\Resources\printTemplateRuku.tpl.xls";
         static public string printTemplateChuku = workingPath + @"\Resources\printTemplateChuku.tpl";
 
         /// <summary>

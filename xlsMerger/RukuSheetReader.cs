@@ -233,6 +233,12 @@ namespace XlsMerger
 			return importedRukuSheets;
 		}
 
+		/*
+		public RukuPrintSheet getRukuPrintSheet() {
+			return new RukuPrintSheet(importedRukuSheets, "", "");
+		}
+		*/
+
 		public void setRukuList(List<RukuSheet> list)
 		{
 			this.importedRukuSheets = list;

@@ -41,6 +41,7 @@ namespace XlsMerger
         }
     }
 
+	/*
     [Serializable()]
     public class ObjectToSerialize : ISerializable
     {
@@ -65,5 +66,31 @@ namespace XlsMerger
         {
             info.AddValue("RukuSheets", this.rukuSheets);
         }
-    }
+    }*/
+
+	[Serializable()]
+	public class ObjectToSerialize : ISerializable
+	{
+		private RukuPrintSheet rukuPrintSheet;
+
+		public RukuPrintSheet RukuPrintSheet
+		{
+			get { return this.rukuPrintSheet; }
+			set { this.rukuPrintSheet = value; }
+		}
+
+		public ObjectToSerialize()
+		{
+		}
+
+		public ObjectToSerialize(SerializationInfo info, StreamingContext ctxt)
+		{
+			this.rukuPrintSheet = (RukuPrintSheet)info.GetValue("RukuPrintSheet", typeof(RukuPrintSheet));
+		}
+
+		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+		{
+			info.AddValue("RukuPrintSheet", this.rukuPrintSheet);
+		}
+	}
 }
