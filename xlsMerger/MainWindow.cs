@@ -11,22 +11,22 @@ namespace XlsMerger
 {
 	public partial class MainWindow : Form
 	{
-        private WelcomeForm welcome;
+		private WelcomeForm welcome;
 		private SheetReader sheetReader = new SheetReader();
-        private RukuSheetReader rukuSheetReader = new RukuSheetReader();
+		private RukuSheetReader rukuSheetReader = new RukuSheetReader();
 		private SheetWriter sheetWriter = new SheetWriter();
-        private RukuSheetWriter rukuSheetWriter = new RukuSheetWriter();
-        private IniFile settings = new IniFile("Settings.ini");
+		private RukuSheetWriter rukuSheetWriter = new RukuSheetWriter();
+		private IniFile settings = new IniFile("Settings.ini");
 		//private BindingSource bs = new BindingSource();
 
-		private enum status { beforeImport=1, duringImport=2, afterImport=3 };
+		private enum status { beforeImport = 1, duringImport = 2, afterImport = 3 };
 		private Enum globalSt;
 
 		private void setStatus(status st)
 		{
 			if (st == status.beforeImport)
 			{
-                cBtnImportStart.Enabled = true;
+				cBtnImportStart.Enabled = true;
 				cBtnDeleteDoc.Enabled = false;
 				cBtnExport.Enabled = false;
 				cBtnImportEnd.Enabled = false;
@@ -34,14 +34,15 @@ namespace XlsMerger
 			}
 			else if (st == status.duringImport)
 			{
-                cBtnImportStart.Enabled = true;
+				cBtnImportStart.Enabled = true;
 				cBtnDeleteDoc.Enabled = true;
 				cBtnExport.Enabled = false;
 				cBtnImportEnd.Enabled = true;
 				globalSt = status.duringImport;
 			}
-			else {
-                cBtnImportStart.Enabled = false;
+			else
+			{
+				cBtnImportStart.Enabled = false;
 				cBtnDeleteDoc.Enabled = false;
 				cBtnExport.Enabled = true;
 				cBtnImportEnd.Enabled = false;
@@ -52,7 +53,7 @@ namespace XlsMerger
 
 		public MainWindow(WelcomeForm welcome)
 		{
-            this.welcome = welcome;
+			this.welcome = welcome;
 			InitializeComponent();
 			dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			dataGridView1.ReadOnly = true;
@@ -63,24 +64,26 @@ namespace XlsMerger
 
 			treeView1.ExpandAll();
 
-            //Initialize ini settings
-            if (!this.settings.KeyExists("OpenDirectory", "System")) { this.settings.Write("OpenDirectory", @"c:\", "System"); }
-            if (!this.settings.KeyExists("SaveDirectory", "System")) { this.settings.Write("SaveDirectory", @"c:\", "System"); }
-            if (this.settings.KeyExists("ProcessStatus", "StateMachine"))
-            {
-                string st = this.settings.Read("ProcessStatus", "StateMachine");
+			//Initialize ini settings
+			if (!this.settings.KeyExists("OpenDirectory", "System")) { this.settings.Write("OpenDirectory", @"c:\", "System"); }
+			if (!this.settings.KeyExists("SaveDirectory", "System")) { this.settings.Write("SaveDirectory", @"c:\", "System"); }
+			if (this.settings.KeyExists("ProcessStatus", "StateMachine"))
+			{
+				string st = this.settings.Read("ProcessStatus", "StateMachine");
 
-                if (Enum.IsDefined(typeof(status), st))
-                {
-                    setStatus((status)Enum.Parse(typeof(status), st, true));
-                }
-            }
-            else {
-                setStatus(status.beforeImport);
-            }
+				if (Enum.IsDefined(typeof(status), st))
+				{
+					setStatus((status)Enum.Parse(typeof(status), st, true));
+				}
+			}
+			else
+			{
+				setStatus(status.beforeImport);
+			}
 		}
 
-		private void reloadData() {
+		private void reloadData()
+		{
 			dataGridView1.DataSource = sheetReader.loadTmpFile();
 
 			for (int i = 0; i < dataGridView1.Columns.Count; i++)
@@ -95,27 +98,27 @@ namespace XlsMerger
 		{
 			cCbDocList.DataBindings.Clear();
 			cCbDocList.DataSource = null;
-            cCbDocList.Items.Clear();
+			cCbDocList.Items.Clear();
 
-            List<Invoice> invList = sheetReader.getInvoiceList();
-            cCbDocList.DataSource = invList;
+			List<Invoice> invList = sheetReader.getInvoiceList();
+			cCbDocList.DataSource = invList;
 			cCbDocList.DisplayMember = "face";
 		}
 
 		private void endImport(object sender, EventArgs e)
 		{
-            DialogResult dialogResult = MessageBox.Show("导入结束，单据号不能删除！", "导入结束", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                setStatus(status.afterImport);
-            }		
+			DialogResult dialogResult = MessageBox.Show("导入结束，单据号不能删除！", "导入结束", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				setStatus(status.afterImport);
+			}
 		}
 
 		private void startImport(object sender, EventArgs e)
 		{
 			OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = this.settings.Read("OpenDirectory", "System");
+			openFileDialog1.InitialDirectory = this.settings.Read("OpenDirectory", "System");
 			openFileDialog1.Filter = "Execel Sheets (*.xls)|*.xls|All files (*.*)|*.*";
 			openFileDialog1.FilterIndex = 1;
 			openFileDialog1.Multiselect = true;
@@ -123,18 +126,18 @@ namespace XlsMerger
 
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-                //Update the lastOpend Directory
-                this.settings.Write("OpenDirectory", Path.GetDirectoryName(openFileDialog1.FileName), "System");
+				//Update the lastOpend Directory
+				this.settings.Write("OpenDirectory", Path.GetDirectoryName(openFileDialog1.FileName), "System");
 
-                if (Program.systemRegistryStatus == Program.SystemRegistryStatus.NotRegisted)
-                {
-                    int imported =sheetReader.getInvoiceList().Count;
-                    if (imported + openFileDialog1.FileNames.Length > 2)
-                    {
-                        MessageBox.Show("试用版只能导入最多两个文件！", "注册提示");
-                        return;
-                    }
-                }
+				if (Program.systemRegistryStatus == Program.SystemRegistryStatus.NotRegisted)
+				{
+					int imported = sheetReader.getInvoiceList().Count;
+					if (imported + openFileDialog1.FileNames.Length > 2)
+					{
+						MessageBox.Show("试用版只能导入最多两个文件！", "注册提示");
+						return;
+					}
+				}
 
 				foreach (string path in openFileDialog1.FileNames)
 				{
@@ -156,10 +159,10 @@ namespace XlsMerger
 				refreshInvoiceList();
 			}
 
-            //Update tmp files
-            sheetWriter.writeToFile(sheetReader.getDataTable(), null);
-            sheetWriter.saveMetaData(sheetReader.getInvoiceList());
-            setStatus(status.duringImport);
+			//Update tmp files
+			sheetWriter.writeToFile(sheetReader.getDataTable(), null);
+			sheetWriter.saveMetaData(sheetReader.getInvoiceList());
+			setStatus(status.duringImport);
 		}
 
 		private void cBtnDeleteDoc_Click(object sender, EventArgs e)
@@ -170,22 +173,23 @@ namespace XlsMerger
 				return;
 			}
 
-            Invoice deletedInv = (Invoice)cCbDocList.SelectedItem;
-            DialogResult dialogResult = MessageBox.Show("确定要删除[" + deletedInv.face + "]？", "删除单据", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                sheetReader.removeRowsByInvoice(deletedInv);
-                refreshInvoiceList();
+			Invoice deletedInv = (Invoice)cCbDocList.SelectedItem;
+			DialogResult dialogResult = MessageBox.Show("确定要删除[" + deletedInv.face + "]？", "删除单据", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				sheetReader.removeRowsByInvoice(deletedInv);
+				refreshInvoiceList();
 
-                //Update tmp files
-                sheetWriter.writeToFile(sheetReader.getDataTable(), null);
-                sheetWriter.saveMetaData(sheetReader.getInvoiceList());
-            }		
+				//Update tmp files
+				sheetWriter.writeToFile(sheetReader.getDataTable(), null);
+				sheetWriter.saveMetaData(sheetReader.getInvoiceList());
+			}
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
-			if (e.RowIndex < 0) {
+			if (e.RowIndex < 0)
+			{
 				return;
 			}
 
@@ -200,8 +204,8 @@ namespace XlsMerger
 		private void MainWindow_Load(object sender, EventArgs e)
 		{
 			reloadData();
-            reloadRukuData();
-            welcome.Close();
+			reloadRukuData();
+			welcome.Close();
 		}
 
 		private void cBtnExport_Click(object sender, EventArgs e)
@@ -209,15 +213,15 @@ namespace XlsMerger
 			Stream myStream;
 			SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
-            saveFileDialog1.InitialDirectory = this.settings.Read("SaveDirectory", "System");
+			saveFileDialog1.InitialDirectory = this.settings.Read("SaveDirectory", "System");
 			saveFileDialog1.FileName = "连续打印税票.xls";
 			saveFileDialog1.Filter = "xls files (*.xls)|*.xls|All files (*.*)|*.*";
 			saveFileDialog1.FilterIndex = 1;
 
 			if (saveFileDialog1.ShowDialog() == DialogResult.OK)
 			{
-                //Update the lastSaved Directory
-                this.settings.Write("SaveDirectory", Path.GetDirectoryName(saveFileDialog1.FileName), "System");
+				//Update the lastSaved Directory
+				this.settings.Write("SaveDirectory", Path.GetDirectoryName(saveFileDialog1.FileName), "System");
 
 				if ((myStream = saveFileDialog1.OpenFile()) != null)
 				{
@@ -228,7 +232,7 @@ namespace XlsMerger
 			}
 			sheetReader.clearTmp();
 			reloadData();
-            setStatus(status.beforeImport);
+			setStatus(status.beforeImport);
 		}
 
 		private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -238,8 +242,8 @@ namespace XlsMerger
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
-            this.settings.Write("ProcessStatus", this.globalSt.ToString(), "StateMachine");
-            /*
+			this.settings.Write("ProcessStatus", this.globalSt.ToString(), "StateMachine");
+			/*
 			DialogResult dialogResult = MessageBox.Show("退出前要保存当前税票么？", "保存", MessageBoxButtons.YesNoCancel);
 			if (dialogResult == DialogResult.Yes)
 			{
@@ -249,168 +253,154 @@ namespace XlsMerger
 			{
 				e.Cancel = true;
 			}
-             */
+			 */
 		}
 
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 		}
 
-        private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new AboutForm().ShowDialog();
-        }
+		private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			new AboutForm().ShowDialog();
+		}
 
-        private void cTabInvoiceManager_SelectedIndexChanged(object sender, EventArgs e)
-        {   
+		private void cTabInvoiceManager_SelectedIndexChanged(object sender, EventArgs e)
+		{
 
-        }
+		}
 
-        #region 公共方法
+		#region 公共方法
 
-        private string[] importFiles(string fileType) {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+		private string[] importFiles(string fileType)
+		{
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = this.settings.Read("OpenDirectory", "System");
-            openFileDialog1.Filter = "Execel Sheets (*.xls)|*.xls|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 1;
-            openFileDialog1.Multiselect = true;
-            openFileDialog1.Title = "选择单据（可多选）";
+			openFileDialog1.InitialDirectory = this.settings.Read("OpenDirectory", "System");
+			openFileDialog1.Filter = "Execel Sheets (*.xls)|*.xls|All files (*.*)|*.*";
+			openFileDialog1.FilterIndex = 1;
+			openFileDialog1.Multiselect = true;
+			openFileDialog1.Title = "选择单据（可多选）";
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                //Update the lastOpend Directory
-                this.settings.Write("OpenDirectory", Path.GetDirectoryName(openFileDialog1.FileName), "System");
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				//Update the lastOpend Directory
+				this.settings.Write("OpenDirectory", Path.GetDirectoryName(openFileDialog1.FileName), "System");
 
-                if (Program.systemRegistryStatus == Program.SystemRegistryStatus.NotRegisted)
-                {
-                    int imported = 0;
-                    switch (fileType){
-                        case "invoice": imported = sheetReader.getInvoiceList().Count;
-                            break;
-                        case "ruku": imported = rukuSheetReader.getRukuList().Count;
-                            break;
-                        //case "chuku": imported = sheetReader.getChukuList().Count;
-                    }
-                    if (imported + openFileDialog1.FileNames.Length > 2)
-                    {
-                        MessageBox.Show("试用版只能导入最多两个文件！", "注册提示");
-                        return null;
-                    }
-                }
+				if (Program.systemRegistryStatus == Program.SystemRegistryStatus.NotRegisted)
+				{
+					int imported = 0;
+					switch (fileType)
+					{
+						case "invoice": imported = sheetReader.getInvoiceList().Count;
+							break;
+						case "ruku": imported = rukuSheetReader.getRukuList().Count;
+							break;
+						//case "chuku": imported = sheetReader.getChukuList().Count;
+					}
+					if (imported + openFileDialog1.FileNames.Length > 2)
+					{
+						MessageBox.Show("试用版只能导入最多两个文件！", "注册提示");
+						return null;
+					}
+				}
 
-                return openFileDialog1.FileNames;
-            }
+				return openFileDialog1.FileNames;
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        #endregion
+		#endregion
 
-        #region 入库单界面代码
+		#region 入库单界面代码
 
-        private void reloadRukuData()
-        {
-            List<RukuSheet> tmp = rukuSheetWriter.loadFromFile();
+		private void reloadRukuData()
+		{
+			List<RukuSheet> tmp = rukuSheetWriter.loadFromFile();
 
-            if (tmp == null) {
-                return;
-            }
-            rukuSheetReader.setRukuList(tmp);
-            dataGridView2.DataSource = rukuSheetReader.getDataTable();
+			if (tmp == null)
+			{
+				return;
+			}
+			rukuSheetReader.setRukuList(tmp);
 
-            for (int i = 0; i < dataGridView2.Columns.Count; i++)
-            {
-                dataGridView2.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            }
-            refreshRukuList();
-        }
+			refreshRukuList();
+		}
 
-        private void refreshRukuList()
-        {
-            cCbboxRuku.DataBindings.Clear();
-            cCbboxRuku.DataSource = null;
-            cCbboxRuku.Items.Clear();
+		private void refreshRukuList()
+		{
+			dataGridView2.DataSource = rukuSheetReader.getDataTable();
+			for (int i = 0; i < dataGridView2.Columns.Count; i++)
+			{
+				dataGridView2.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+			}
 
-            List<RukuSheet> rukuList = rukuSheetReader.getRukuList();
-            cCbboxRuku.DataSource = rukuList;
-            cCbboxRuku.DisplayMember = "face";
-        }
+			cCbboxRuku.DataBindings.Clear();
+			cCbboxRuku.DataSource = null;
+			cCbboxRuku.Items.Clear();
 
-        private void cBtnRukuStart_Click(object sender, EventArgs e)
-        {
-            string[] rukuFiles = importFiles("ruku");
+			List<RukuSheet> rukuList = rukuSheetReader.getRukuList();
+			cCbboxRuku.DataSource = rukuList;
+			cCbboxRuku.DisplayMember = "face";
+		}
 
-            if (rukuFiles == null) {
-                return;
-            }
+		private void cBtnRukuStart_Click(object sender, EventArgs e)
+		{
+			string[] rukuFiles = importFiles("ruku");
 
-            foreach (string path in rukuFiles)
-            {
-                DataTable importResult = rukuSheetReader.importRukuSheets(path);
+			if (rukuFiles == null)
+			{
+				return;
+			}
 
-                if (importResult == null)
-                {
-                    MessageBox.Show(@"单据[" + path + @"]导入失败，原因：可能是重复导入或文件已损坏!");
-                }
-                else
-                {
-                    dataGridView2.DataSource = importResult;
-                }
-            }
+			foreach (string path in rukuFiles)
+			{
+				DataTable importResult = rukuSheetReader.importRukuSheets(path);
 
-            for (int i = 0; i < dataGridView2.Columns.Count; i++)
-            {
-                dataGridView2.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            }
+				if (importResult == null)
+				{
+					MessageBox.Show(@"单据[" + path + @"]导入失败，原因：可能是重复导入或文件已损坏!");
+				}
+			}
 
-            refreshRukuList();
+			refreshRukuList();
 
-            //Update tmp files
+			//Update tmp files
+			rukuSheetWriter.saveToFile(rukuSheetReader.getRukuList());
+			/*
+			sheetWriter.saveRukuMetaData(sheetReader.getInvoiceList());
+			setStatusRuku(status.duringImport);
+			 */
 
-            rukuSheetWriter.saveToFile(rukuSheetReader.getRukuList());
-            /*
-            sheetWriter.saveRukuMetaData(sheetReader.getInvoiceList());
-            setStatusRuku(status.duringImport);
-             */
-            
-        }
+		}
 
-        private void cBtnRukuPrint_Click(object sender, EventArgs e)
-        {
-            PrintHelper ph = new PrintHelper();
-            ph.PrintMyExcelFile();
-        }
-#endregion
+		private void cBtnRukuPrint_Click(object sender, EventArgs e)
+		{
+			PrintHelper ph = new PrintHelper();
+			ph.PrintMyExcelFile();
+		}
 
+		private void cBtnDelRuku_Click(object sender, EventArgs e)
+		{
+			if (cCbboxRuku.Text == "")
+			{
+				MessageBox.Show(@"请正确选择要删除的单据号！");
+				return;
+			}
 
-        /*
-        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            //对单据日期格式做特殊处理
-            if (e.ColumnIndex == 2)
-            {
-                if (e.Value != null)
-                {
-                    try
-                    {
-                        DateTime theDate = DateTime.ParseExact((string)e.Value,
-                                        "M/dd/yy",
-                                        System.Globalization.CultureInfo.InvariantCulture);
+			RukuSheet toDelete = (RukuSheet)cCbboxRuku.SelectedItem;
+			DialogResult dialogResult = MessageBox.Show("确定要删除[" + toDelete.face + "]？", "删除单据", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				rukuSheetReader.removeSheet(toDelete);
+				
+				refreshRukuList();
 
-						DateTime date = (DateTime)e.Value;
-						ToString("yyyy-MM-dd");
-                        e.Value = dateString;
-                        e.FormattingApplied = true;
-                    }
-                    catch (FormatException)
-                    {
-                        // Set to false in case there are other handlers interested trying to
-                        // format this DataGridViewCellFormattingEventArgs instance.
-                        e.FormattingApplied = false;
-                    }
-                }
-            }
-        }*/
+				//Update tmp files
+				rukuSheetWriter.saveToFile(rukuSheetReader.getRukuList());
+			}
+		}
+		#endregion
 	}
 }

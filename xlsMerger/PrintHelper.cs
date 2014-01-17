@@ -4,15 +4,24 @@ using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
+using System.Threading;     // For setting the Localization of the thread to fit
+using System.Globalization; // the of the MS Excel localization, because of the MS bug
 
 namespace XlsMerger
 {
     class PrintHelper
     {
+		public void generatePrintDoc() { 
+		
+		}
 
         public void PrintMyExcelFile()
         {
             Application excelApp = new Application();
+			
+
+
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
             // Open the Workbook:
             Workbook wb = excelApp.Workbooks.Open(
