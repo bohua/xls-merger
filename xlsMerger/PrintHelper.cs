@@ -16,34 +16,18 @@ namespace XlsMerger
     class PrintHelper
     {
         private List<string> printDocs = new List<string>();
+        private const int page_num_interval = 3;
+        private const int page_num_meta_rows = 9;
+        private const int page_num_meta_headers = 6;
+
 
         public void generatePrintDoc(RukuPrintSheet printSheet)
         {
-            int src, dst;
-            HSSFSheet sheet;
             FileStream fs = new FileStream(Program.printTemplateRuku, FileMode.Open, FileAccess.ReadWrite);
             HSSFWorkbook workbook = new HSSFWorkbook(fs);
             fs.Close();
 
-            for (int i = 0; i < (printSheet.getPageSize() + 9); i++)
-            {
-                src = i;
-                dst = printSheet.getPageSize() + 10 + src;
-                sheet = (HSSFSheet)workbook.GetSheetAt(0);
-
-                CopyRow(workbook, sheet, src, dst);
-
-                if (src == 0)
-                {
-                    sheet.GetRow(dst).HeightInPoints = 25;
-                }
-                else
-                {
-                    sheet.GetRow(dst).HeightInPoints = 18;
-                }
-
-
-            }
+            generatePrintPage(printSheet, workbook);
 
             fs = new FileStream(Program.printDoc, FileMode.Create);
 
@@ -52,42 +36,59 @@ namespace XlsMerger
             fs.Close();
         }
 
-        private void generatePrintPage(RukuPrintSheet printSheet, int pageNum, HSSFWorkbook workbook)
+
+
+        private void generatePrintPage(RukuPrintSheet printSheet, HSSFWorkbook workbook)
         {
             int src, dst;
             int pageSize = printSheet.getPageSize();
-            HSSFSheet sheet;
-            List<Ruku> printRecords = printSheet.getRecords().GetRange(pageSize * pageNum, pageSize);
+            int totalRecordNum = printSheet.getRecords().Count;
+            int pageNum = totalRecordNum % pageSize == 0 ? (totalRecordNum / pageSize) : (totalRecordNum / pageSize + 1);
 
-            for (int i = 0; i < (printSheet.getPageSize() + 9); i++)
+            HSSFSheet sheet = (HSSFSheet)workbook.GetSheetAt(0);
+
+            for (int curPage = 1; curPage < pageNum; curPage++)
             {
-                src = i;
-                dst = (printSheet.getPageSize() + 10) * pageNum + src;
-                sheet = (HSSFSheet)workbook.GetSheetAt(0);
-
-                CopyRow(workbook, sheet, src, dst);
-
-                //如果是数据行
-                if (i > 5 && i <= i + pageSize)
+                for (int i = 0; i < (printSheet.getPageSize() + page_num_meta_rows); i++)
                 {
-                    IRow row = sheet.GetRow(pageSize * pageSize + i);
-                    row.GetCell(0).SetCellValue(i - 5);
-                    row.GetCell(1).SetCellValue(printRecords[i - 6].rk_wzmc);
-                    row.GetCell(2).SetCellValue(printRecords[i - 6].rk_ggxh);
-                    row.GetCell(3).SetCellValue(printRecords[i - 6].rk_dw);
-                    row.GetCell(4).SetCellValue(printRecords[i - 6].rk_jhsl);
-                    row.GetCell(5).SetCellValue(printRecords[i - 6].rk_jhdj);
-                    row.GetCell(6).SetCellValue(printRecords[i - 6].rk_jhje);
-                }
+                    src = i;
+                    dst = (printSheet.getPageSize() + page_num_meta_rows + page_num_interval) * curPage + src;
 
-                if (src == 0)
-                {
-                    sheet.GetRow(dst).HeightInPoints = 25;
+                    CopyRow(workbook, sheet, src, dst);
+
+                    if (src == 0)
+                    {
+                        sheet.GetRow(dst).HeightInPoints = 25;
+                    }
+                    else
+                    {
+                        sheet.GetRow(dst).HeightInPoints = 18;
+                    }
                 }
-                else
+            }
+
+            for (int curPage = 0; curPage < pageNum; curPage++) {
+                List<Ruku> records;
+                if (curPage * pageSize + pageSize > printSheet.getRecords().Count)
                 {
-                    sheet.GetRow(dst).HeightInPoints = 18;
+                    records = printSheet.getRecords().GetRange(curPage * pageSize, printSheet.getRecords().Count - curPage * pageSize);
                 }
+                else {
+                    records = printSheet.getRecords().GetRange(curPage * pageSize, pageSize);
+                }
+                
+
+                for (int i = 0; i < records.Count; i++) {
+                    IRow row = sheet.GetRow(curPage * (pageSize + +page_num_meta_rows + page_num_interval) + page_num_meta_headers + i);
+                    row.GetCell(0).SetCellValue(i + 1);
+                    row.GetCell(1).SetCellValue(records[i].rk_wzmc);
+                    row.GetCell(2).SetCellValue(records[i].rk_ggxh);
+                    row.GetCell(3).SetCellValue(records[i].rk_dw);
+                    row.GetCell(4).SetCellValue(records[i].rk_jhsl);
+                    row.GetCell(5).SetCellValue(records[i].rk_jhdj);
+                    row.GetCell(6).SetCellValue(records[i].rk_jhje);
+                }
+                
             }
         }
 
