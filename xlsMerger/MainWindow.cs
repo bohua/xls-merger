@@ -332,9 +332,9 @@ namespace XlsMerger
 		}
 
 		private void setAmounts(string je, string se, string js) {
-			cLabelJE.Text = "金额合计:" + je;
-			cLabelSE.Text = "税额合计:" + se;
-			cLabelJS.Text = "价税合计:" + js;
+			cLabelJS.Text = "金额合计:" + je + "      ";
+			cLabelSE.Text = "税额合计:" + se + "      ";
+			cLabelJE.Text = "价税合计:" + js + "      ";
 		}
 
 		private void refreshRukuList()
@@ -355,6 +355,7 @@ namespace XlsMerger
 
 			cTxtboxRukuMaster.Text = rukuPrintSheet.masterName;
 			cTxtboxVerifier.Text = rukuPrintSheet.verifierName;
+			cTxtboxRukuInvNum.Text = rukuPrintSheet.invNum;
 
 			setAmounts(rukuPrintSheet.getJE(), rukuPrintSheet.getSE(), rukuPrintSheet.getJS());
 		}
@@ -423,6 +424,7 @@ namespace XlsMerger
 		{
 			this.rukuPrintSheet.masterName = cTxtboxRukuMaster.Text;
 			this.rukuPrintSheet.verifierName = cTxtboxVerifier.Text;
+			this.rukuPrintSheet.invNum = cTxtboxRukuInvNum.Text;
 			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 		}
 

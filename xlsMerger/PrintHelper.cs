@@ -136,7 +136,8 @@ namespace XlsMerger
 				row.GetCell(6).SetCellValue("N" + printPages[curPage][0].rk_dh);
 
 				//填写发票号
-
+				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 3);
+				row.GetCell(5).SetCellValue(printSheet.invNum);
 
 				//填写姓名
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - 1);
@@ -263,7 +264,6 @@ namespace XlsMerger
 				}
 			}
 
-			/*
 			// If there are are any merged regions in the source row, copy to new row
 			for (int i = 0; i < worksheet.NumMergedRegions; i++)
 			{
@@ -279,7 +279,6 @@ namespace XlsMerger
 					worksheet.AddMergedRegion(newCellRangeAddress);
 				}
 			}
-			 */
 
 		}
 

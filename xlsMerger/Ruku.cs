@@ -164,6 +164,7 @@ namespace XlsMerger
 		public List<RukuSheet> sheetList;
 		public string masterName {get; set;}
 		public string verifierName {get; set;}
+		public string invNum { get; set; }
 
 		public RukuPrintSheet() {
 		
@@ -173,6 +174,7 @@ namespace XlsMerger
 			this.sheetList = sheetList;
 			this.masterName = master_name;
 			this.verifierName = verifier_name;
+			this.invNum = "";
 		}
 		
 		public RukuPrintSheet(SerializationInfo info, StreamingContext ctxt)
@@ -180,12 +182,14 @@ namespace XlsMerger
 			this.sheetList = (List<RukuSheet>)info.GetValue("sheet_list", typeof(List<RukuSheet>));
 			this.masterName = (string)info.GetValue("master_name", typeof(string));
 			this.verifierName = (string)info.GetValue("verifier_name", typeof(string));
+			this.invNum = (string)info.GetValue("inv_num", typeof(string));
 		}
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
 		{
 			info.AddValue("sheet_list", this.sheetList);
 			info.AddValue("master_name", this.masterName);
 			info.AddValue("verifier_name", this.verifierName);
+			info.AddValue("inv_num", this.invNum);
 		}
 
 		/*
