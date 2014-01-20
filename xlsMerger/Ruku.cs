@@ -113,15 +113,16 @@ namespace XlsMerger
 			decimal js = 0m;
 			foreach (Ruku record in this.records)
 			{
-				je += decimal.Parse(record.rk_jhje);
-				se += je * 0.17m;
-				js += je + se;
+				decimal dj = decimal.Parse(record.rk_jhje);
+				js += dj;
+				je += dj / 1.17m;
+				se += dj - dj / 1.17m;
 			}
 			this.je_total = Math.Round(je, 2).ToString();
 			this.se_total = Math.Round(se, 2).ToString();
 			this.js_total = Math.Round(js, 2).ToString();
 
-			this.face = string.Format("单据号:{0}  金额:{1}", this.sheetId, this.je_total);
+			this.face = string.Format("单据号:{0}  金额:{1}", this.sheetId, this.js_total);
 		}
 
 		public List<Ruku> getRecords()
