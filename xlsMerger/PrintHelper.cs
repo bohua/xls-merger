@@ -17,9 +17,10 @@ namespace XlsMerger
 	{
 		private List<string> printDocs = new List<string>();
 		private const int page_num_interval = 1;
-		private const int page_num_meta_rows = 9;
 		private const int page_num_meta_headers = 6;
-		private const int page_num_total_rows = 22;
+		private const int page_num_meta_foots = 3;
+		private const int page_num_meta_rows = page_num_meta_headers + page_num_meta_foots;
+		private const int page_num_total_rows = 21;
 
 
 		public void generatePrintDoc(RukuPrintSheet printSheet)
@@ -43,39 +44,58 @@ namespace XlsMerger
 		{
 			int src, dst;
 			int pageSize = printSheet.getPageSize();
-			int totalRecordNum = printSheet.getRecords().Count;
-			int pageNum = totalRecordNum % pageSize == 0 ? (totalRecordNum / pageSize) : (totalRecordNum / pageSize + 1);
 
-			HSSFSheet sheet = (HSSFSheet)workbook.GetSheetAt(0);
+			List<List<Ruku>> printPages = new List<List<Ruku>>();
+			foreach (RukuSheet rukuSheet in printSheet.sheetList)
+			{
+				int totalRecordNum = rukuSheet.getRecords().Count;
+				int pages = totalRecordNum % pageSize == 0 ? (totalRecordNum / pageSize) : (totalRecordNum / pageSize + 1);
 
-			for (int curPage = 1; curPage < pageNum; curPage++)
+				for (int i = 0; i < pages; i++)
+				{
+					if (i * pageSize + pageSize > rukuSheet.getRecords().Count)
+					{
+						printPages.Add(rukuSheet.getRecords().GetRange(i * pageSize, rukuSheet.getRecords().Count - i * pageSize));
+					}
+					else
+					{
+						printPages.Add(rukuSheet.getRecords().GetRange(i * pageSize, pageSize));
+					}
+				}
+			}
+
+			HSSFSheet worksheet = (HSSFSheet)workbook.GetSheetAt(0);
+
+			for (int curPage = 1; curPage < printPages.Count; curPage++)
 			{
 				for (int i = 0; i < (printSheet.getPageSize() + page_num_meta_rows); i++)
 				{
 					src = i;
 					dst = (printSheet.getPageSize() + page_num_meta_rows + page_num_interval) * curPage + src;
 
-					CopyRow(workbook, sheet, src, dst);
+					CopyRow(workbook, worksheet, src, dst);
 
 					if (src == 0)
 					{
-						sheet.GetRow(dst).HeightInPoints = 30;
+						worksheet.GetRow(dst).HeightInPoints = 30;
 					}
 					else if (src < 21)
 					{
-						sheet.GetRow(dst).HeightInPoints = 18;
+						worksheet.GetRow(dst).HeightInPoints = 18;
 					}
 				}
 
 				if (curPage > 1 && curPage % 2 == 0)
 				{
-					sheet.SetRowBreak(page_num_total_rows * curPage - 1);
+					worksheet.SetRowBreak((page_num_total_rows + page_num_interval) * curPage - 1);
 				}
 			}
 
-			for (int curPage = 0; curPage < pageNum; curPage++)
+			for (int curPage = 0; curPage < printPages.Count; curPage++)
 			{
-				List<Ruku> records;
+
+
+				/*
 				if (curPage * pageSize + pageSize > printSheet.getRecords().Count)
 				{
 					records = printSheet.getRecords().GetRange(curPage * pageSize, printSheet.getRecords().Count - curPage * pageSize);
@@ -84,20 +104,44 @@ namespace XlsMerger
 				{
 					records = printSheet.getRecords().GetRange(curPage * pageSize, pageSize);
 				}
+				*/
+				IRow row;
+				decimal js = 0m;
 
-
-				for (int i = 0; i < records.Count; i++)
+				for (int i = 0; i < printPages[curPage].Count; i++)
 				{
-					IRow row = sheet.GetRow(curPage * (pageSize + +page_num_meta_rows + page_num_interval) + page_num_meta_headers + i);
+					row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_meta_headers + i);
 					row.GetCell(0).SetCellValue(i + 1);
-					row.GetCell(1).SetCellValue(records[i].rk_wzmc);
-					row.GetCell(2).SetCellValue(records[i].rk_ggxh);
-					row.GetCell(3).SetCellValue(records[i].rk_dw);
-					row.GetCell(4).SetCellValue(records[i].rk_jhsl);
-					row.GetCell(5).SetCellValue(records[i].rk_jhdj);
-					row.GetCell(6).SetCellValue(records[i].rk_jhje);
+					row.GetCell(1).SetCellValue(printPages[curPage][i].rk_wzmc);
+					row.GetCell(2).SetCellValue(printPages[curPage][i].rk_ggxh);
+					row.GetCell(3).SetCellValue(printPages[curPage][i].rk_dw);
+					row.GetCell(4).SetCellValue(printPages[curPage][i].rk_jhsl);
+					row.GetCell(5).SetCellValue(printPages[curPage][i].rk_jhdj);
+					row.GetCell(6).SetCellValue(printPages[curPage][i].rk_jhje);
+
+					js += decimal.Parse(printPages[curPage][i].rk_jhje);
 				}
 
+				//填写总金额
+				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - page_num_meta_foots);
+				row.GetCell(6).SetCellValue(Math.Round(js,2).ToString());
+				row.GetCell(2).SetCellValue(CurrencyBigNum.NumGetStr(System.Convert.ToDouble(Math.Round(js,2))));
+
+				//填写日期
+				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 1);
+				row.GetCell(6).SetCellValue(printPages[curPage][0].rk_rq);
+
+				//填写单号
+				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval));
+				row.GetCell(6).SetCellValue("N" + printPages[curPage][0].rk_dh);
+
+				//填写发票号
+
+
+				//填写姓名
+				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - 1);
+				row.GetCell(4).SetCellValue("主管:" + printSheet.masterName);
+				row.GetCell(5).SetCellValue("验收:" + printSheet.verifierName);
 			}
 		}
 

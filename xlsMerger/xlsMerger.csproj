@@ -54,6 +54,7 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CurrencyBigNum.cs" />
     <Compile Include="PrintHelper.cs" />
     <Compile Include="Ruku.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

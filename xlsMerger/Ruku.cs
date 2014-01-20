@@ -188,6 +188,7 @@ namespace XlsMerger
 			info.AddValue("verifier_name", this.verifierName);
 		}
 
+		/*
 		public List<Ruku> getRecords() {
 			List<Ruku> records = new List<Ruku>();
 
@@ -199,6 +200,7 @@ namespace XlsMerger
 
 			return records;
 		}
+		 */
 		
 		public string getJE(){
 			decimal je = 0m;
