@@ -36,9 +36,9 @@
     <ApplicationIcon>Treetog-Junior-Document-excel.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NPOI, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+    <Reference Include="NPOI, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\npoi-master\solution\Lib\NPOI.dll</HintPath>
+      <HintPath>.\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -138,6 +138,7 @@
     <None Include="Resources\welcome.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="NPOI.dll" />
     <Content Include="Treetog-Junior-Document-excel.ico" />
   </ItemGroup>
   <ItemGroup>
