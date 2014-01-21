@@ -22,6 +22,7 @@ namespace XlsMerger
 
 		private enum status { beforeImport = 1, duringImport = 2, afterImport = 3 };
 		private Enum globalSt;
+		private Enum globalRukuSt;
 
 		private void setStatus(status st)
 		{
@@ -51,6 +52,34 @@ namespace XlsMerger
 			}
 		}
 
+		private void setStatusRuku(status st)
+		{
+			if (st == status.beforeImport)
+			{
+				cBtnRukuStart.Enabled = true;
+				cBtnDelRuku.Enabled = false;
+				cBtnRukuPrint.Enabled = false;
+				cBtnRukuEnd.Enabled = false;
+				globalRukuSt = status.beforeImport;
+			}
+			else if (st == status.duringImport)
+			{
+				cBtnRukuStart.Enabled = true;
+				cBtnDelRuku.Enabled = true;
+				cBtnRukuPrint.Enabled = false;
+				cBtnRukuEnd.Enabled = true;
+				globalRukuSt = status.duringImport;
+			}
+			else
+			{
+				cBtnRukuStart.Enabled = false;
+				cBtnDelRuku.Enabled = false;
+				cBtnRukuPrint.Enabled = true;
+				cBtnRukuEnd.Enabled = false;
+				globalRukuSt = status.afterImport;
+			}
+		}
+
 
 		public MainWindow(WelcomeForm welcome)
 		{
@@ -68,6 +97,8 @@ namespace XlsMerger
 			//Initialize ini settings
 			if (!this.settings.KeyExists("OpenDirectory", "System")) { this.settings.Write("OpenDirectory", @"c:\", "System"); }
 			if (!this.settings.KeyExists("SaveDirectory", "System")) { this.settings.Write("SaveDirectory", @"c:\", "System"); }
+
+			//读取税票状态
 			if (this.settings.KeyExists("ProcessStatus", "StateMachine"))
 			{
 				string st = this.settings.Read("ProcessStatus", "StateMachine");
@@ -80,6 +111,21 @@ namespace XlsMerger
 			else
 			{
 				setStatus(status.beforeImport);
+			}
+
+			//读取入库状态
+			if (this.settings.KeyExists("ProcessStatus", "StateMachineRuku"))
+			{
+				string st = this.settings.Read("ProcessStatus", "StateMachineRuku");
+
+				if (Enum.IsDefined(typeof(status), st))
+				{
+					setStatusRuku((status)Enum.Parse(typeof(status), st, true));
+				}
+			}
+			else
+			{
+				setStatusRuku(status.beforeImport);
 			}
 		}
 
@@ -244,6 +290,7 @@ namespace XlsMerger
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			this.settings.Write("ProcessStatus", this.globalSt.ToString(), "StateMachine");
+			this.settings.Write("ProcessStatus", this.globalRukuSt.ToString(), "StateMachineRuku");
 			/*
 			DialogResult dialogResult = MessageBox.Show("退出前要保存当前税票么？", "保存", MessageBoxButtons.YesNoCancel);
 			if (dialogResult == DialogResult.Yes)
@@ -320,18 +367,16 @@ namespace XlsMerger
 		{
 			RukuPrintSheet tmp = rukuSheetWriter.loadFromFile();
 
-			if (tmp == null)
+			if (tmp != null)
 			{
-				return;
+				this.rukuPrintSheet = tmp;
+				rukuSheetReader.setRukuList(tmp.sheetList);
 			}
-
-			this.rukuPrintSheet = tmp;
-			rukuSheetReader.setRukuList(tmp.sheetList);
-
 			refreshRukuList();
 		}
 
-		private void setAmounts(string je, string se, string js) {
+		private void setAmounts(string je, string se, string js)
+		{
 			cLabelJS.Text = "金额合计:" + je + "      ";
 			cLabelSE.Text = "税额合计:" + se + "      ";
 			cLabelJE.Text = "价税合计:" + js + "      ";
@@ -385,18 +430,20 @@ namespace XlsMerger
 
 			//Update tmp files
 			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
-			/*
-			sheetWriter.saveRukuMetaData(sheetReader.getInvoiceList());
-			setStatusRuku(status.duringImport);
-			 */
 
+			setStatusRuku(status.duringImport);
 		}
 
 		private void cBtnRukuPrint_Click(object sender, EventArgs e)
 		{
+			setStatusRuku(status.beforeImport);
 
 			PrintHelper ph = new PrintHelper();
 			ph.generatePrintDoc(this.rukuPrintSheet);
+
+			this.rukuSheetReader.clearTmp();
+			reloadRukuData();
+
 		}
 
 		private void cBtnDelRuku_Click(object sender, EventArgs e)
@@ -412,7 +459,7 @@ namespace XlsMerger
 			if (dialogResult == DialogResult.Yes)
 			{
 				rukuSheetReader.removeSheet(toDelete);
-				
+
 				refreshRukuList();
 
 				//Update tmp files
@@ -429,5 +476,10 @@ namespace XlsMerger
 		}
 
 		#endregion
+
+		private void cBtnRukuEnd_Click(object sender, EventArgs e)
+		{
+			setStatusRuku(status.afterImport);
+		}
 	}
 }

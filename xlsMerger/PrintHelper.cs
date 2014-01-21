@@ -36,6 +36,8 @@ namespace XlsMerger
 			// save the changes
 			workbook.Write(fs);
 			fs.Close();
+
+			PrintMyExcelFile(printSheet);
 		}
 
 
@@ -93,18 +95,6 @@ namespace XlsMerger
 
 			for (int curPage = 0; curPage < printPages.Count; curPage++)
 			{
-
-
-				/*
-				if (curPage * pageSize + pageSize > printSheet.getRecords().Count)
-				{
-					records = printSheet.getRecords().GetRange(curPage * pageSize, printSheet.getRecords().Count - curPage * pageSize);
-				}
-				else
-				{
-					records = printSheet.getRecords().GetRange(curPage * pageSize, pageSize);
-				}
-				*/
 				IRow row;
 				decimal js = 0m;
 
@@ -148,14 +138,12 @@ namespace XlsMerger
 
 		public void PrintMyExcelFile(RukuPrintSheet printSheet)
 		{
-
-
 			Application excelApp = new Application();
 			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
 			// Open the Workbook:
 			Workbook wb = excelApp.Workbooks.Open(
-				Program.printTemplateRuku,
+				Program.printDoc,
 				Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
 				Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
 				Type.Missing, Type.Missing, Type.Missing, Type.Missing);

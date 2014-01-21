@@ -55,6 +55,9 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.dataGridView2 = new System.Windows.Forms.DataGridView();
 			this.panel4 = new System.Windows.Forms.Panel();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.cTxtboxRukuInvNum = new System.Windows.Forms.TextBox();
 			this.cLabelJE = new System.Windows.Forms.Label();
 			this.cLabelSE = new System.Windows.Forms.Label();
 			this.cLabelJS = new System.Windows.Forms.Label();
@@ -68,9 +71,6 @@
 			this.cBtnRukuPrint = new System.Windows.Forms.Button();
 			this.cBtnRukuStart = new System.Windows.Forms.Button();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-			this.cTxtboxRukuInvNum = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -346,6 +346,32 @@
 			this.panel4.Size = new System.Drawing.Size(800, 67);
 			this.panel4.TabIndex = 4;
 			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(16, 35);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(62, 21);
+			this.label3.TabIndex = 12;
+			this.label3.Text = "发票号:";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(271, 35);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(46, 21);
+			this.label1.TabIndex = 11;
+			this.label1.Text = "主管:";
+			// 
+			// cTxtboxRukuInvNum
+			// 
+			this.cTxtboxRukuInvNum.Location = new System.Drawing.Point(84, 31);
+			this.cTxtboxRukuInvNum.Name = "cTxtboxRukuInvNum";
+			this.cTxtboxRukuInvNum.Size = new System.Drawing.Size(159, 29);
+			this.cTxtboxRukuInvNum.TabIndex = 10;
+			this.cTxtboxRukuInvNum.Leave += new System.EventHandler(this.cTxtboxRukuMaster_Leave);
+			// 
 			// cLabelJE
 			// 
 			this.cLabelJE.AutoSize = true;
@@ -446,6 +472,7 @@
 			this.cBtnRukuEnd.TabIndex = 2;
 			this.cBtnRukuEnd.Text = "导入结束";
 			this.cBtnRukuEnd.UseVisualStyleBackColor = true;
+			this.cBtnRukuEnd.Click += new System.EventHandler(this.cBtnRukuEnd_Click);
 			// 
 			// cCbboxRuku
 			// 
@@ -485,32 +512,6 @@
 			// openFileDialog1
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
-			// 
-			// cTxtboxRukuInvNum
-			// 
-			this.cTxtboxRukuInvNum.Location = new System.Drawing.Point(84, 31);
-			this.cTxtboxRukuInvNum.Name = "cTxtboxRukuInvNum";
-			this.cTxtboxRukuInvNum.Size = new System.Drawing.Size(159, 29);
-			this.cTxtboxRukuInvNum.TabIndex = 10;
-			this.cTxtboxRukuInvNum.Leave += new System.EventHandler(this.cTxtboxRukuMaster_Leave);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(271, 35);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(46, 21);
-			this.label1.TabIndex = 11;
-			this.label1.Text = "主管:";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(16, 35);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(62, 21);
-			this.label3.TabIndex = 12;
-			this.label3.Text = "发票号:";
 			// 
 			// MainWindow
 			// 

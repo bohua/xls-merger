@@ -34,14 +34,14 @@ namespace XlsMerger
 			Serializer serializer = new Serializer();
 			//save the car list to a file          
 			objectToSerialize.RukuPrintSheet = printSheet;
-			serializer.SerializeObject("tmpRuku.txt", objectToSerialize);
+			serializer.SerializeObject(Program.tmpRukuFile, objectToSerialize);
 		}
 
 		public RukuPrintSheet loadFromFile()
 		{
 			ObjectToSerialize objectToSerialize = new ObjectToSerialize();
 			Serializer serializer = new Serializer();
-			objectToSerialize = serializer.DeSerializeObject("tmpRuku.txt");
+			objectToSerialize = serializer.DeSerializeObject(Program.tmpRukuFile);
 			if (objectToSerialize == null)
 			{
 				return null;

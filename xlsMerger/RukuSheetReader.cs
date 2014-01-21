@@ -252,5 +252,23 @@ namespace XlsMerger
 			this.convertToDT();
 		}
 
+		public void clearTmp() {
+			this.importedRukuSheets.Clear();
+			myDt.Clear();
+			deleteTmpFile();
+		}
+
+		private void deleteTmpFile() {
+			if (File.Exists(Program.tmpRukuFile))
+			{
+				try
+				{
+					File.Delete(Program.tmpRukuFile);
+				}
+				catch (Exception ex)
+				{
+				}
+			}
+		}
 	}
 }
