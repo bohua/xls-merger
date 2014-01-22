@@ -16,15 +16,36 @@ namespace XlsMerger
 	class PrintHelper
 	{
 		private List<string> printDocs = new List<string>();
-		private const int page_num_interval = 1;
-		private const int page_num_meta_headers = 6;
-		private const int page_num_meta_foots = 3;
-		private const int page_num_meta_rows = page_num_meta_headers + page_num_meta_foots;
-		private const int page_num_total_rows = 21;
+		private int page_num_page_size;
+		private int page_num_interval;
+		private int page_num_meta_headers;
+		private int page_num_meta_foots;
+		private int page_num_meta_rows;
+		private int page_num_total_rows;
+		private int page_num_total_rows_withinterval;
+		private int row_data_height = 18;
+		private int row_title_height = 30;
 
+		public PrintHelper(IniFile ini) {
+			//Initialize page settings
+			if (!ini.KeyExists("page_num_page_size", "PrintLayout")) { ini.Write("page_num_page_size", @"16", "PrintLayout"); }
+			if (!ini.KeyExists("page_num_interval", "PrintLayout")) { ini.Write("page_num_interval", @"4", "PrintLayout"); }
+			if (!ini.KeyExists("page_num_meta_headers", "PrintLayout")) { ini.Write("page_num_meta_headers", @"6", "PrintLayout"); }
+			if (!ini.KeyExists("page_num_meta_foots", "PrintLayout")) { ini.Write("page_num_meta_foots", @"3", "PrintLayout"); }
+
+			this.page_num_page_size = int.Parse(ini.Read("page_num_page_size", "PrintLayout"));
+			this.page_num_interval = int.Parse(ini.Read("page_num_interval", "PrintLayout"));
+			this.page_num_meta_headers = int.Parse(ini.Read("page_num_meta_headers", "PrintLayout"));
+			this.page_num_meta_foots = int.Parse(ini.Read("page_num_meta_foots", "PrintLayout"));
+			this.page_num_meta_rows = page_num_meta_headers + page_num_meta_foots;
+			this.page_num_total_rows = page_num_meta_rows + page_num_page_size;
+			this.page_num_total_rows_withinterval = page_num_total_rows + page_num_interval;
+		}
 
 		public void generatePrintDoc(RukuPrintSheet printSheet)
 		{
+			generatePrintTempalte();
+
 			FileStream fs = new FileStream(Program.printTemplateRuku, FileMode.Open, FileAccess.ReadWrite);
 			HSSFWorkbook workbook = new HSSFWorkbook(fs);
 			fs.Close();
@@ -32,20 +53,40 @@ namespace XlsMerger
 			generatePrintPage(printSheet, workbook);
 
 			fs = new FileStream(Program.printDoc, FileMode.Create);
-
-			// save the changes
 			workbook.Write(fs);
 			fs.Close();
 
 			PrintMyExcelFile(printSheet);
 		}
 
+		private void generatePrintTempalte() {
+			FileStream fs = new FileStream(Program.printTemplateRukuSrc, FileMode.Open, FileAccess.Read);
+			HSSFWorkbook workbook = new HSSFWorkbook(fs);
+			fs.Close();
 
+			//插入行数
+			for (int i = 1; i < page_num_page_size; i++)
+			{
+				CopyRow(workbook, (HSSFSheet)workbook.GetSheetAt(0), page_num_meta_headers, page_num_meta_headers + 1);
+			}
+
+			//重置行高
+			workbook.GetSheetAt(0).GetRow(0).HeightInPoints = row_title_height;
+			for (int i = 1; i < page_num_total_rows; i++)
+			{
+				workbook.GetSheetAt(0).GetRow(i).HeightInPoints = row_data_height;
+			}
+
+			//保存生成新的模板文件
+			fs = new FileStream(Program.printTemplateRuku, FileMode.Create);
+			workbook.Write(fs);
+			fs.Close();
+		}
 
 		private void generatePrintPage(RukuPrintSheet printSheet, HSSFWorkbook workbook)
 		{
 			int src, dst;
-			int pageSize = printSheet.getPageSize();
+			int pageSize = page_num_page_size;
 
 			List<List<Ruku>> printPages = new List<List<Ruku>>();
 			foreach (RukuSheet rukuSheet in printSheet.sheetList)
@@ -70,20 +111,20 @@ namespace XlsMerger
 
 			for (int curPage = 1; curPage < printPages.Count; curPage++)
 			{
-				for (int i = 0; i < (printSheet.getPageSize() + page_num_meta_rows); i++)
+				for (int i = 0; i < (page_num_page_size + page_num_meta_rows); i++)
 				{
 					src = i;
-					dst = (printSheet.getPageSize() + page_num_meta_rows + page_num_interval) * curPage + src;
+					dst = (page_num_total_rows + page_num_interval) * curPage + src;
 
 					CopyRow(workbook, worksheet, src, dst);
 
 					if (src == 0)
 					{
-						worksheet.GetRow(dst).HeightInPoints = 30;
+						worksheet.GetRow(dst).HeightInPoints = row_title_height;
 					}
-					else if (src < 21)
+					else if (src < page_num_total_rows)
 					{
-						worksheet.GetRow(dst).HeightInPoints = 18;
+						worksheet.GetRow(dst).HeightInPoints = row_data_height;
 					}
 				}
 
@@ -112,6 +153,10 @@ namespace XlsMerger
 					js += decimal.Parse(printPages[curPage][i].rk_jhje);
 				}
 
+				//填写公司名称
+				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 3);
+				row.GetCell(2).SetCellValue(printPages[curPage][0].rk_gfmc);
+
 				//填写总金额
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - page_num_meta_foots);
 				row.GetCell(6).SetCellValue(Math.Round(js,2).ToString());
@@ -138,8 +183,9 @@ namespace XlsMerger
 
 		public void PrintMyExcelFile(RukuPrintSheet printSheet)
 		{
+
 			Application excelApp = new Application();
-			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+			//Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
 
 			// Open the Workbook:
 			Workbook wb = excelApp.Workbooks.Open(

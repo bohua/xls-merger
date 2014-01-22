@@ -436,14 +436,26 @@ namespace XlsMerger
 
 		private void cBtnRukuPrint_Click(object sender, EventArgs e)
 		{
-			setStatusRuku(status.beforeImport);
+			PrintHelper ph = new PrintHelper(this.settings);
+			try
+			{
+				ph.generatePrintDoc(this.rukuPrintSheet);
+				this.rukuSheetReader.clearTmp();
+				reloadRukuData();
 
-			PrintHelper ph = new PrintHelper();
-			ph.generatePrintDoc(this.rukuPrintSheet);
-
-			this.rukuSheetReader.clearTmp();
-			reloadRukuData();
-
+				setStatusRuku(status.beforeImport);
+			}
+			catch (System.Runtime.InteropServices.COMException)
+			{
+				MessageBox.Show(@"打印过程中遇到问题，可能是EXCEL安装不完全或不正确，请尝试重新安装正版OFFICE!");
+			}
+			catch (System.IO.FileNotFoundException)
+			{
+				MessageBox.Show(@"打印过程中遇到问题，打印模板程序损坏或被删除，请重新安装本软件!");
+			}
+			catch (System.IO.IOException) {
+				MessageBox.Show(@"打印过程中遇到问题，打印模板程序正被其它程序调用，请关闭其它程序!");
+			}
 		}
 
 		private void cBtnDelRuku_Click(object sender, EventArgs e)

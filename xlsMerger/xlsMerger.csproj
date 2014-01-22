@@ -152,7 +152,7 @@
     <None Include="Resources\printTemplateChuku.tpl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\printTemplateRuku.xls">
+    <None Include="Resources\printTemplateRuku.src.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="XlsMerger_TemporaryKey.pfx" />
@@ -174,7 +174,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="NPOI.dll" />
-    <Content Include="SautinSoft.ExcelToPdf.dll" />
     <Content Include="Treetog-Junior-Document-excel.ico" />
   </ItemGroup>
   <ItemGroup>

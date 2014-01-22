@@ -159,8 +159,6 @@ namespace XlsMerger
 	[Serializable()]
 	public class RukuPrintSheet : ISerializable
 	{
-		private const int pageSize = 12;
-
 		public List<RukuSheet> sheetList;
 		public string masterName {get; set;}
 		public string verifierName {get; set;}
@@ -238,10 +236,6 @@ namespace XlsMerger
 			}
 
 			return js.ToString();
-		}
-
-		public int getPageSize(){
-			return pageSize;
 		}
 	}
 }
