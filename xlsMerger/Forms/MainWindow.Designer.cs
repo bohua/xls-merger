@@ -31,8 +31,12 @@
 			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("税票导入");
 			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("税票管理", new System.Windows.Forms.TreeNode[] {
             treeNode1});
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("系统菜单", new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("入库单导入");
+			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("入库单管理", new System.Windows.Forms.TreeNode[] {
+            treeNode3});
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("系统菜单", new System.Windows.Forms.TreeNode[] {
+            treeNode2,
+            treeNode4});
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
 			this.dataSet1 = new System.Data.DataSet();
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -108,14 +112,18 @@
 			this.treeView1.Location = new System.Drawing.Point(0, 0);
 			this.treeView1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
 			this.treeView1.Name = "treeView1";
-			treeNode1.Name = "Node2";
+			treeNode1.Name = "Node_Import_Invoice";
 			treeNode1.Text = "税票导入";
 			treeNode2.Name = "Node_InvoiceManager";
 			treeNode2.Text = "税票管理";
-			treeNode3.Name = "Node_Root";
-			treeNode3.Text = "系统菜单";
+			treeNode3.Name = "Node_Import_Ruku";
+			treeNode3.Text = "入库单导入";
+			treeNode4.Name = "Node_RukuManager";
+			treeNode4.Text = "入库单管理";
+			treeNode5.Name = "Node_Root";
+			treeNode5.Text = "系统菜单";
 			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode5});
 			this.treeView1.Size = new System.Drawing.Size(198, 696);
 			this.treeView1.TabIndex = 0;
 			this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);

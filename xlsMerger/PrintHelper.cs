@@ -56,7 +56,7 @@ namespace XlsMerger
 			workbook.Write(fs);
 			fs.Close();
 
-			PrintMyExcelFile(printSheet);
+			//PrintMyExcelFile(printSheet);
 		}
 
 		private void generatePrintTempalte() {
@@ -164,11 +164,11 @@ namespace XlsMerger
 
 				//填写日期
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 1);
-				row.GetCell(6).SetCellValue(printPages[curPage][0].rk_rq);
+				row.GetCell(5).SetCellValue(printPages[curPage][0].rk_rq);
 
 				//填写单号
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval));
-				row.GetCell(6).SetCellValue("N" + printPages[curPage][0].rk_dh);
+				row.GetCell(5).SetCellValue("NO" + printPages[curPage][0].rk_dh);
 
 				//填写发票号
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 3);
@@ -176,7 +176,7 @@ namespace XlsMerger
 
 				//填写姓名
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - 1);
-				row.GetCell(4).SetCellValue("主管:" + printSheet.masterName);
+				row.GetCell(3).SetCellValue("主管:" + printSheet.masterName);
 				row.GetCell(5).SetCellValue("验收:" + printSheet.verifierName);
 			}
 		}

@@ -306,6 +306,22 @@ namespace XlsMerger
 
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
 		{
+			TreeNode node = treeView1.SelectedNode;
+
+			switch (node.Name)
+			{
+				case "Node_Import_Invoice":
+					{
+						cTabInvoiceManager.SelectedTab = cTabPageInvoiceImport;
+						break;
+					}
+
+				case "Node_Import_Ruku":
+					{
+						cTabInvoiceManager.SelectedTab = cTabPageRukudan;
+						break;
+					}
+			}
 		}
 
 		private void 关于ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -315,7 +331,20 @@ namespace XlsMerger
 
 		private void cTabInvoiceManager_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
+			switch (cTabInvoiceManager.SelectedTab.Name)
+			{
+				case "cTabPageInvoiceImport":
+					{
+						treeView1.SelectedNode = treeView1.Nodes[0].Nodes[0].Nodes[0];
+						break;
+					}
+				case "cTabPageRukudan":
+					{
+						treeView1.SelectedNode = treeView1.Nodes[0].Nodes[1].Nodes[0];
+						break;
+					}
+			}
+			treeView1.Focus();
 		}
 
 		#region 公共方法
@@ -439,8 +468,18 @@ namespace XlsMerger
 			PrintHelper ph = new PrintHelper(this.settings);
 			try
 			{
+				//打印文档
 				ph.generatePrintDoc(this.rukuPrintSheet);
-				this.rukuSheetReader.clearTmp();
+
+				DialogResult dialogResult = MessageBox.Show("要删除已打印过的入库单文件么？", "删除原文件", MessageBoxButtons.YesNo);
+				if (dialogResult == DialogResult.Yes)
+				{
+					this.rukuSheetReader.clearTmp(true);
+				}
+				else {
+					this.rukuSheetReader.clearTmp(false);
+				}
+
 				reloadRukuData();
 
 				setStatusRuku(status.beforeImport);
@@ -453,7 +492,8 @@ namespace XlsMerger
 			{
 				MessageBox.Show(@"打印过程中遇到问题，打印模板程序损坏或被删除，请重新安装本软件!");
 			}
-			catch (System.IO.IOException) {
+			catch (System.IO.IOException)
+			{
 				MessageBox.Show(@"打印过程中遇到问题，打印模板程序正被其它程序调用，请关闭其它程序!");
 			}
 		}
@@ -491,7 +531,11 @@ namespace XlsMerger
 
 		private void cBtnRukuEnd_Click(object sender, EventArgs e)
 		{
-			setStatusRuku(status.afterImport);
+			DialogResult dialogResult = MessageBox.Show("导入结束，单据号将不能删除！", "导入结束", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				setStatusRuku(status.afterImport);
+			}
 		}
 	}
 }
