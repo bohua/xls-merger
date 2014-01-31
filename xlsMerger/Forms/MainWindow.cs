@@ -342,17 +342,7 @@ namespace XlsMerger
 		{
 			this.settings.Write("ProcessStatus", this.globalSt.ToString(), "StateMachine");
 			this.settings.Write("ProcessStatus", this.globalRukuSt.ToString(), "StateMachineRuku");
-			/*
-			DialogResult dialogResult = MessageBox.Show("退出前要保存当前税票么？", "保存", MessageBoxButtons.YesNoCancel);
-			if (dialogResult == DialogResult.Yes)
-			{
-				endImport(null, null);
-			}
-			else if (dialogResult == DialogResult.Cancel)
-			{
-				e.Cancel = true;
-			}
-			 */
+			this.settings.Write("ProcessStatus", this.globalChukuSt.ToString(), "StateMachineChuku");
 		}
 
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -650,6 +640,41 @@ namespace XlsMerger
 			chukuSheetWriter.saveToFile(this.chukuPrintSheet);
 
 			setStatusChuku(status.duringImport);
+		}
+
+		private void cBtnChukuDel_Click(object sender, EventArgs e)
+		{
+			if (cCbboxChuku.Text == "")
+			{
+				MessageBox.Show(@"请正确选择要删除的单据号！");
+				return;
+			}
+
+			ChukuSheet toDelete = (ChukuSheet)cCbboxChuku.SelectedItem;
+			DialogResult dialogResult = MessageBox.Show("确定要删除[" + toDelete.face + "]？", "删除单据", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				chukuSheetReader.removeSheet(toDelete);
+
+				refreshChukuList();
+
+				//Update tmp files
+				chukuSheetWriter.saveToFile(this.chukuPrintSheet);
+			}
+		}
+
+		private void cBtnChukuEnd_Click(object sender, EventArgs e)
+		{
+			DialogResult dialogResult = MessageBox.Show("导入结束，单据号将不能删除！", "导入结束", MessageBoxButtons.YesNo);
+			if (dialogResult == DialogResult.Yes)
+			{
+				setStatusChuku(status.afterImport);
+			}
+		}
+
+		private void cBtnChukuPrint_Click(object sender, EventArgs e)
+		{
+
 		}
 
 	}

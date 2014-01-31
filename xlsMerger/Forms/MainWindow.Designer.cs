@@ -685,6 +685,7 @@
 			this.cBtnChukuDel.TabIndex = 6;
 			this.cBtnChukuDel.Text = "删除";
 			this.cBtnChukuDel.UseVisualStyleBackColor = true;
+			this.cBtnChukuDel.Click += new System.EventHandler(this.cBtnChukuDel_Click);
 			// 
 			// cBtnChukuEnd
 			// 
@@ -697,6 +698,7 @@
 			this.cBtnChukuEnd.TabIndex = 2;
 			this.cBtnChukuEnd.Text = "导入结束";
 			this.cBtnChukuEnd.UseVisualStyleBackColor = true;
+			this.cBtnChukuEnd.Click += new System.EventHandler(this.cBtnChukuEnd_Click);
 			// 
 			// cCbboxChuku
 			// 
@@ -719,6 +721,7 @@
 			this.cBtnChukuPrint.TabIndex = 3;
 			this.cBtnChukuPrint.Text = "打印";
 			this.cBtnChukuPrint.UseVisualStyleBackColor = true;
+			this.cBtnChukuPrint.Click += new System.EventHandler(this.cBtnChukuPrint_Click);
 			// 
 			// cBtnChukuStart
 			// 
