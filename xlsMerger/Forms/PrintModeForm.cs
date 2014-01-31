@@ -11,9 +11,24 @@ namespace XlsMerger
 {
 	public partial class PrintModeForm : Form
 	{
+        public string printMode {get;set;}
+
 		public PrintModeForm()
 		{
 			InitializeComponent();
 		}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.printMode = "print";
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.printMode = "xls";
+            this.Close();
+        }
+
 	}
 }

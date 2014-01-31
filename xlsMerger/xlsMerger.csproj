@@ -53,7 +53,7 @@
     <ApplicationIcon>Resources\Treetog-Junior-Document-excel.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A76896DF4C5E9CBBB8CCC2A7AD97EAFBB0671285</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>155DD68C866709429B34CA84D8931B7D757F6690</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>XlsMerger_TemporaryKey.pfx</ManifestKeyFile>
@@ -68,10 +68,6 @@
     <Reference Include="NPOI, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="SautinSoft.ExcelToPdf, Version=3.2.10.29, Culture=neutral, PublicKeyToken=239046b8a1e8c07b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\SautinSoft.ExcelToPdf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -164,6 +160,7 @@
     <None Include="Resources\printTemplateRuku.src.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="XlsMerger_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\xls.jpg" />

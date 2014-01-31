@@ -181,7 +181,7 @@ namespace XlsMerger
 			}
 		}
 
-		public void PrintMyExcelFile(RukuPrintSheet printSheet)
+		public void PrintMyExcelFile()
 		{
 
 			Application excelApp = new Application();
@@ -215,6 +215,10 @@ namespace XlsMerger
 			excelApp.Quit();
 			Marshal.FinalReleaseComObject(excelApp);
 		}
+
+        public void ExportMyExcelFileAsXls(string path) {
+            File.Copy(Program.printDoc, path, true);        
+        }
 
 		/// <summary>
 		/// HSSFRow Copy Command
