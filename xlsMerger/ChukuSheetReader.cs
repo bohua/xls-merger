@@ -12,7 +12,7 @@ namespace XlsMerger
 	{
 		private List<ChukuSheet> importedChukuSheets = new List<ChukuSheet>();
 		private DataTable myDt = new DataTable();
-		private string[] headers = { "出货单日期", "出货单号", "客户名称", "发票号", "商品名称", "规格型号", "单位", "数量", "单价", "金额", "税额"};
+		private string[] headers = { "出货单日期", "出货单号", "客户名称", "商品名称", "规格型号", "单位", "数量", "单价" };
 		
 		private void headerCreator(System.Collections.IEnumerator rows)
 		{
@@ -165,7 +165,6 @@ namespace XlsMerger
 					dr[5] = list[i].ck_dw;
 					dr[6] = list[i].ck_sl;
 					dr[7] = list[i].ck_djjs;
-					dr[8] = list[i].ck_djse;
 
 					myDt.Rows.Add(dr);
 				}

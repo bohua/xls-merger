@@ -12,17 +12,25 @@ namespace XlsMerger
 	public partial class MainWindow : Form
 	{
 		private WelcomeForm welcome;
+		
 		private SheetReader sheetReader = new SheetReader();
 		private RukuSheetReader rukuSheetReader = new RukuSheetReader();
+		private ChukuSheetReader chukuSheetReader = new ChukuSheetReader();
+		
 		private SheetWriter sheetWriter = new SheetWriter();
 		private RukuSheetWriter rukuSheetWriter = new RukuSheetWriter();
+		private ChukuSheetWriter chukuSheetWriter = new ChukuSheetWriter();
+
 		private IniFile settings = new IniFile("Settings.ini");
+
 		private RukuPrintSheet rukuPrintSheet = new RukuPrintSheet(new List<RukuSheet>(), "沈洪伟", "李成伟");
+		private ChukuPrintSheet chukuPrintSheet = new ChukuPrintSheet(new List<ChukuSheet>(), "沈洪伟", "李成伟");
 		//private BindingSource bs = new BindingSource();
 
 		private enum status { beforeImport = 1, duringImport = 2, afterImport = 3 };
 		private Enum globalSt;
 		private Enum globalRukuSt;
+		private Enum globalChukuSt;
 
 		private void setStatus(status st)
 		{
@@ -80,6 +88,33 @@ namespace XlsMerger
 			}
 		}
 
+		private void setStatusChuku(status st)
+		{
+			if (st == status.beforeImport)
+			{
+				cBtnChukuStart.Enabled = true;
+				cBtnChukuDel.Enabled = false;
+				cBtnChukuPrint.Enabled = false;
+				cBtnChukuEnd.Enabled = false;
+				globalChukuSt = status.beforeImport;
+			}
+			else if (st == status.duringImport)
+			{
+				cBtnChukuStart.Enabled = true;
+				cBtnChukuDel.Enabled = true;
+				cBtnChukuPrint.Enabled = false;
+				cBtnChukuEnd.Enabled = true;
+				globalChukuSt = status.duringImport;
+			}
+			else
+			{
+				cBtnChukuStart.Enabled = false;
+				cBtnChukuDel.Enabled = false;
+				cBtnChukuPrint.Enabled = true;
+				cBtnChukuEnd.Enabled = false;
+				globalChukuSt = status.afterImport;
+			}
+		}
 
 		public MainWindow(WelcomeForm welcome)
 		{
@@ -126,6 +161,21 @@ namespace XlsMerger
 			else
 			{
 				setStatusRuku(status.beforeImport);
+			}
+
+			//读取出库状态
+			if (this.settings.KeyExists("ProcessStatus", "StateMachineChuku"))
+			{
+				string st = this.settings.Read("ProcessStatus", "StateMachineChuku");
+
+				if (Enum.IsDefined(typeof(status), st))
+				{
+					setStatusChuku((status)Enum.Parse(typeof(status), st, true));
+				}
+			}
+			else
+			{
+				setStatusChuku(status.beforeImport);
 			}
 		}
 
@@ -252,6 +302,7 @@ namespace XlsMerger
 		{
 			reloadData();
 			reloadRukuData();
+			reloadChukuData();
 			welcome.Close();
 		}
 
@@ -373,7 +424,8 @@ namespace XlsMerger
 							break;
 						case "ruku": imported = this.rukuPrintSheet.sheetList.Count;
 							break;
-						//case "chuku": imported = sheetReader.getChukuList().Count;
+						case "chuku": imported = this.chukuPrintSheet.sheetList.Count;
+							break;
 					}
 					if (imported + openFileDialog1.FileNames.Length > 2)
 					{
@@ -406,9 +458,9 @@ namespace XlsMerger
 
 		private void setAmounts(string je, string se, string js)
 		{
-			cLabelJS.Text = "金额合计:" + je + "      ";
-			cLabelSE.Text = "税额合计:" + se + "      ";
-			cLabelJE.Text = "价税合计:" + js + "      ";
+			cLabelJS_Ruku.Text = "金额合计:" + je + "      ";
+			cLabelSE_Ruku.Text = "税额合计:" + se + "      ";
+			cLabelJE_Ruku.Text = "价税合计:" + js + "      ";
 		}
 
 		private void refreshRukuList()
@@ -428,7 +480,7 @@ namespace XlsMerger
 			cCbboxRuku.DisplayMember = "face";
 
 			cTxtboxRukuMaster.Text = rukuPrintSheet.masterName;
-			cTxtboxVerifier.Text = rukuPrintSheet.verifierName;
+			cTxtboxRukuVerifier.Text = rukuPrintSheet.verifierName;
 			cTxtboxRukuInvNum.Text = rukuPrintSheet.invNum;
 
 			setAmounts(rukuPrintSheet.getJE(), rukuPrintSheet.getSE(), rukuPrintSheet.getJS());
@@ -522,7 +574,7 @@ namespace XlsMerger
 		private void cTxtboxRukuMaster_Leave(object sender, EventArgs e)
 		{
 			this.rukuPrintSheet.masterName = cTxtboxRukuMaster.Text;
-			this.rukuPrintSheet.verifierName = cTxtboxVerifier.Text;
+			this.rukuPrintSheet.verifierName = cTxtboxRukuVerifier.Text;
 			this.rukuPrintSheet.invNum = cTxtboxRukuInvNum.Text;
 			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 		}
@@ -537,6 +589,68 @@ namespace XlsMerger
 		}
 
 		#endregion
+
+		private void reloadChukuData()
+		{
+			ChukuPrintSheet tmp = chukuSheetWriter.loadFromFile();
+
+			if (tmp != null)
+			{
+				this.chukuPrintSheet = tmp;
+				chukuSheetReader.setChukuList(tmp.sheetList);
+			}
+			refreshChukuList();
+		}
+
+		private void refreshChukuList()
+		{
+			dataGridView3.DataSource = chukuSheetReader.getDataTable();
+			for (int i = 0; i < dataGridView3.Columns.Count; i++)
+			{
+				dataGridView3.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+			}
+
+			cCbboxChuku.DataBindings.Clear();
+			cCbboxChuku.DataSource = null;
+			cCbboxChuku.Items.Clear();
+
+			this.chukuPrintSheet.sheetList = chukuSheetReader.getChukuList();
+			cCbboxChuku.DataSource = chukuPrintSheet.sheetList;
+			cCbboxChuku.DisplayMember = "face";
+
+			cTxtboxChukuMaster.Text = chukuPrintSheet.masterName;
+			cTxtboxChukuVerifier.Text = chukuPrintSheet.verifierName;
+			cTxtboxChukuInvNum.Text = chukuPrintSheet.invNum;
+
+			setAmounts(rukuPrintSheet.getJE(), rukuPrintSheet.getSE(), rukuPrintSheet.getJS());
+		}
+
+		private void cBtnChukuStart_Click(object sender, EventArgs e)
+		{
+			string[] chukuFiles = importFiles("chuku");
+
+			if (chukuFiles == null)
+			{
+				return;
+			}
+
+			foreach (string path in chukuFiles)
+			{
+				DataTable importResult = chukuSheetReader.importChukuSheets(path);
+
+				if (importResult == null)
+				{
+					MessageBox.Show(@"单据[" + path + @"]导入失败，原因：可能是重复导入或文件已损坏!");
+				}
+			}
+
+			refreshChukuList();
+
+			//Update tmp files
+			chukuSheetWriter.saveToFile(this.chukuPrintSheet);
+
+			setStatusChuku(status.duringImport);
+		}
 
 	}
 }
