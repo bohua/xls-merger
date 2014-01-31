@@ -30,18 +30,18 @@ namespace XlsMerger
 
 		public void saveToFile(RukuPrintSheet printSheet)
 		{
-			ObjectToSerialize objectToSerialize = new ObjectToSerialize();
+			RukuToSerialize objectToSerialize = new RukuToSerialize();
 			Serializer serializer = new Serializer();
 			//save the car list to a file          
 			objectToSerialize.RukuPrintSheet = printSheet;
-			serializer.SerializeObject(Program.tmpRukuFile, objectToSerialize);
+			serializer.SerializeRukuObject(Program.tmpRukuFile, objectToSerialize);
 		}
 
 		public RukuPrintSheet loadFromFile()
 		{
-			ObjectToSerialize objectToSerialize = new ObjectToSerialize();
+			RukuToSerialize objectToSerialize = new RukuToSerialize();
 			Serializer serializer = new Serializer();
-			objectToSerialize = serializer.DeSerializeObject(Program.tmpRukuFile);
+			objectToSerialize = serializer.DeSerializeRukuObject(Program.tmpRukuFile);
 			if (objectToSerialize == null)
 			{
 				return null;

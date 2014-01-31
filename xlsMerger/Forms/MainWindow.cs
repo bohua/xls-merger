@@ -527,8 +527,6 @@ namespace XlsMerger
 			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 		}
 
-		#endregion
-
 		private void cBtnRukuEnd_Click(object sender, EventArgs e)
 		{
 			DialogResult dialogResult = MessageBox.Show("导入结束，单据号将不能删除！", "导入结束", MessageBoxButtons.YesNo);
@@ -537,5 +535,8 @@ namespace XlsMerger
 				setStatusRuku(status.afterImport);
 			}
 		}
+
+		#endregion
+
 	}
 }

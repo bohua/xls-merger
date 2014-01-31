@@ -7,39 +7,70 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace XlsMerger
 {
-    public class Serializer
-    {
-        public Serializer()
-        {
-        }
+	public class Serializer
+	{
+		public Serializer()
+		{
+		}
 
-        public void SerializeObject(string filename, ObjectToSerialize objectToSerialize)
-        {
-            Stream stream = File.Open(filename, FileMode.Create);
-            BinaryFormatter bFormatter = new BinaryFormatter();
-            bFormatter.Serialize(stream, objectToSerialize);
-            stream.Close();
-        }
+		public void SerializeRukuObject(string filename, RukuToSerialize objectToSerialize)
+		{
+			Stream stream = File.Open(filename, FileMode.Create);
+			BinaryFormatter bFormatter = new BinaryFormatter();
+			bFormatter.Serialize(stream, objectToSerialize);
+			stream.Close();
+		}
 
-        public ObjectToSerialize DeSerializeObject(string filename)
-        {
-            ObjectToSerialize objectToSerialize;
-            if (!File.Exists(filename)) {
-                return null;
-            }
-            Stream stream = File.Open(filename, FileMode.Open);
-            BinaryFormatter bFormatter = new BinaryFormatter();
-            try
-            {
-                objectToSerialize = (ObjectToSerialize)bFormatter.Deserialize(stream);
-                stream.Close();
-                return objectToSerialize;
-            }catch(Exception ex){
-                return null;
-            }
-            
-        }
-    }
+		public RukuToSerialize DeSerializeRukuObject(string filename)
+		{
+			RukuToSerialize objectToSerialize;
+			if (!File.Exists(filename))
+			{
+				return null;
+			}
+			Stream stream = File.Open(filename, FileMode.Open);
+			BinaryFormatter bFormatter = new BinaryFormatter();
+			try
+			{
+				objectToSerialize = (RukuToSerialize)bFormatter.Deserialize(stream);
+				stream.Close();
+				return objectToSerialize;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+		}
+
+		public void SerializeChukuObject(string filename, ChukuToSerialize objectToSerialize)
+		{
+			Stream stream = File.Open(filename, FileMode.Create);
+			BinaryFormatter bFormatter = new BinaryFormatter();
+			bFormatter.Serialize(stream, objectToSerialize);
+			stream.Close();
+		}
+
+		public ChukuToSerialize DeSerializeChukuObject(string filename)
+		{
+			ChukuToSerialize objectToSerialize;
+			if (!File.Exists(filename))
+			{
+				return null;
+			}
+			Stream stream = File.Open(filename, FileMode.Open);
+			BinaryFormatter bFormatter = new BinaryFormatter();
+			try
+			{
+				objectToSerialize = (ChukuToSerialize)bFormatter.Deserialize(stream);
+				stream.Close();
+				return objectToSerialize;
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+		}
+	}
 
 	/*
     [Serializable()]
@@ -69,7 +100,7 @@ namespace XlsMerger
     }*/
 
 	[Serializable()]
-	public class ObjectToSerialize : ISerializable
+	public class RukuToSerialize : ISerializable
 	{
 		private RukuPrintSheet rukuPrintSheet;
 
@@ -79,11 +110,11 @@ namespace XlsMerger
 			set { this.rukuPrintSheet = value; }
 		}
 
-		public ObjectToSerialize()
+		public RukuToSerialize()
 		{
 		}
 
-		public ObjectToSerialize(SerializationInfo info, StreamingContext ctxt)
+		public RukuToSerialize(SerializationInfo info, StreamingContext ctxt)
 		{
 			this.rukuPrintSheet = (RukuPrintSheet)info.GetValue("RukuPrintSheet", typeof(RukuPrintSheet));
 		}
@@ -91,6 +122,32 @@ namespace XlsMerger
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
 		{
 			info.AddValue("RukuPrintSheet", this.rukuPrintSheet);
+		}
+	}
+
+	[Serializable()]
+	public class ChukuToSerialize : ISerializable
+	{
+		private ChukuPrintSheet chukuPrintSheet;
+
+		public ChukuPrintSheet ChukuPrintSheet
+		{
+			get { return this.chukuPrintSheet; }
+			set { this.chukuPrintSheet = value; }
+		}
+
+		public ChukuToSerialize()
+		{
+		}
+
+		public ChukuToSerialize(SerializationInfo info, StreamingContext ctxt)
+		{
+			this.chukuPrintSheet = (ChukuPrintSheet)info.GetValue("ChukuPrintSheet", typeof(ChukuPrintSheet));
+		}
+
+		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
+		{
+			info.AddValue("ChukuPrintSheet", this.chukuPrintSheet);
 		}
 	}
 }
