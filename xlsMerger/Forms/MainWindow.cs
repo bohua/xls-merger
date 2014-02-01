@@ -362,6 +362,12 @@ namespace XlsMerger
                         cTabInvoiceManager.SelectedTab = cTabPageRukudan;
                         break;
                     }
+
+                case "Node_Import_Chuku":
+                    {
+                        cTabInvoiceManager.SelectedTab = cTabPageChukudan;
+                        break;
+                    }
             }
         }
 
@@ -382,6 +388,11 @@ namespace XlsMerger
                 case "cTabPageRukudan":
                     {
                         treeView1.SelectedNode = treeView1.Nodes[0].Nodes[1].Nodes[0];
+                        break;
+                    }
+                case "cTabPageChukudan":
+                    {
+                        treeView1.SelectedNode = treeView1.Nodes[0].Nodes[2].Nodes[0];
                         break;
                     }
             }

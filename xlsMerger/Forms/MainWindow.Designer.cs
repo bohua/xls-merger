@@ -34,9 +34,13 @@
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("入库单导入");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("入库单管理", new System.Windows.Forms.TreeNode[] {
             treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("系统菜单", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("出库单导入");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("出库单管理", new System.Windows.Forms.TreeNode[] {
+            treeNode5});
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("系统菜单", new System.Windows.Forms.TreeNode[] {
             treeNode2,
-            treeNode4});
+            treeNode4,
+            treeNode6});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.dataSet1 = new System.Data.DataSet();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -144,10 +148,14 @@
             treeNode3.Text = "入库单导入";
             treeNode4.Name = "Node_RukuManager";
             treeNode4.Text = "入库单管理";
-            treeNode5.Name = "Node_Root";
-            treeNode5.Text = "系统菜单";
+            treeNode5.Name = "Node_Import_Chuku";
+            treeNode5.Text = "出库单导入";
+            treeNode6.Name = "Node_ChukuManager";
+            treeNode6.Text = "出库单管理";
+            treeNode7.Name = "Node_Root";
+            treeNode7.Text = "系统菜单";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode7});
             this.treeView1.Size = new System.Drawing.Size(198, 692);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
