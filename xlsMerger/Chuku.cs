@@ -18,10 +18,11 @@ namespace XlsMerger
 		public string ck_ggxh { get; set; }
 		public string ck_dw { get; set; }
 		public string ck_sl { get; set; }
-		public string ck_djjs { get; set; }
-		public string ck_djse { get; set; }
-		public string ck_djje { get; set; }
-
+		public string ck_dj { get; set; }
+		public string ck_se { get; set; }
+		public string ck_je { get; set; }
+        public string ck_xh { get; set; }
+        public string ck_bz { get; set; }
 
 		public Chuku() { }
 
@@ -35,9 +36,11 @@ namespace XlsMerger
 			this.ck_ggxh = (string)info.GetValue("ck_ggxh", typeof(string));
 			this.ck_dw = (string)info.GetValue("ck_dw", typeof(string));
 			this.ck_sl = (string)info.GetValue("ck_sl", typeof(string));
-			this.ck_djjs = (string)info.GetValue("ck_djjs", typeof(string));
-			this.ck_djse = (string)info.GetValue("ck_djse", typeof(string));
-			this.ck_djje = (string)info.GetValue("ck_djje", typeof(string));
+			this.ck_dj = (string)info.GetValue("ck_dj", typeof(string));
+			this.ck_se = (string)info.GetValue("ck_se", typeof(string));
+            this.ck_je = (string)info.GetValue("ck_je", typeof(string));
+            this.ck_xh = (string)info.GetValue("ck_xh", typeof(string));
+            this.ck_bz = (string)info.GetValue("ck_bz", typeof(string));
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -51,15 +54,12 @@ namespace XlsMerger
 			info.AddValue("ck_ggxh", this.ck_ggxh);
 			info.AddValue("ck_dw", this.ck_dw);
 			info.AddValue("ck_sl", this.ck_sl);
-			info.AddValue("ck_djjs", this.ck_djjs);
-			info.AddValue("ck_djse", this.ck_djse);
-			info.AddValue("ck_djje", this.ck_djje);
+			info.AddValue("ck_dj", this.ck_dj);
+			info.AddValue("ck_se", this.ck_se);
+			info.AddValue("ck_je", this.ck_je);
+            info.AddValue("ck_xh", this.ck_xh);
+            info.AddValue("ck_bz", this.ck_bz);
 		}
-
-		/*
-		public void init(){
-			this.face = string.Format("单据号:{0}  金额:{1}", this.rk_dh, this.rk_jhje);
-		}*/
 	}
 
 	[Serializable()]
@@ -110,7 +110,7 @@ namespace XlsMerger
 			decimal js = 0m;
 			foreach (Chuku record in this.records)
 			{
-				decimal dj = decimal.Parse(record.ck_djjs);
+				decimal dj = decimal.Parse(record.ck_je);
 				js += dj;
 				je += dj / 1.17m;
 				se += dj - dj / 1.17m;

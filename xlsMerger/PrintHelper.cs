@@ -42,25 +42,19 @@ namespace XlsMerger
 			this.page_num_total_rows_withinterval = page_num_total_rows + page_num_interval;
 		}
 
-		public void generatePrintDoc(RukuPrintSheet printSheet)
-		{
-			generatePrintTempalte();
+		private void generatePrintTempalte(string type) {
+            string srcFilePath;
+            string tmpFilePath;
+            if (type == "ruku") {
+                srcFilePath = Program.printTemplateRukuSrc;
+                tmpFilePath = Program.printTemplateRuku;
+            }else{
+                srcFilePath = Program.printTemplateChukuSrc;
+                tmpFilePath = Program.printTemplateChuku;
+            }
 
-			FileStream fs = new FileStream(Program.printTemplateRuku, FileMode.Open, FileAccess.ReadWrite);
-			HSSFWorkbook workbook = new HSSFWorkbook(fs);
-			fs.Close();
 
-			generatePrintPage(printSheet, workbook);
-
-			fs = new FileStream(Program.printDoc, FileMode.Create);
-			workbook.Write(fs);
-			fs.Close();
-
-			//PrintMyExcelFile(printSheet);
-		}
-
-		private void generatePrintTempalte() {
-			FileStream fs = new FileStream(Program.printTemplateRukuSrc, FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(srcFilePath, FileMode.Open, FileAccess.Read);
 			HSSFWorkbook workbook = new HSSFWorkbook(fs);
 			fs.Close();
 
@@ -78,12 +72,12 @@ namespace XlsMerger
 			}
 
 			//保存生成新的模板文件
-			fs = new FileStream(Program.printTemplateRuku, FileMode.Create);
+            fs = new FileStream(tmpFilePath, FileMode.Create);
 			workbook.Write(fs);
 			fs.Close();
 		}
 
-		private void generatePrintPage(RukuPrintSheet printSheet, HSSFWorkbook workbook)
+		private void generateRukuPrintPage(RukuPrintSheet printSheet, HSSFWorkbook workbook)
 		{
 			int src, dst;
 			int pageSize = page_num_page_size;
@@ -181,6 +175,136 @@ namespace XlsMerger
 			}
 		}
 
+        private void generateChukuPrintPage(ChukuPrintSheet printSheet, HSSFWorkbook workbook)
+        {
+            int src, dst;
+            int pageSize = page_num_page_size;
+
+            List<List<Chuku>> printPages = new List<List<Chuku>>();
+            foreach (ChukuSheet chukuSheet in printSheet.sheetList)
+            {
+                int totalRecordNum = chukuSheet.getRecords().Count;
+                int pages = totalRecordNum % pageSize == 0 ? (totalRecordNum / pageSize) : (totalRecordNum / pageSize + 1);
+
+                for (int i = 0; i < pages; i++)
+                {
+                    if (i * pageSize + pageSize > chukuSheet.getRecords().Count)
+                    {
+                        printPages.Add(chukuSheet.getRecords().GetRange(i * pageSize, chukuSheet.getRecords().Count - i * pageSize));
+                    }
+                    else
+                    {
+                        printPages.Add(chukuSheet.getRecords().GetRange(i * pageSize, pageSize));
+                    }
+                }
+            }
+
+            HSSFSheet worksheet = (HSSFSheet)workbook.GetSheetAt(0);
+
+            for (int curPage = 1; curPage < printPages.Count; curPage++)
+            {
+                for (int i = 0; i < (page_num_page_size + page_num_meta_rows); i++)
+                {
+                    src = i;
+                    dst = (page_num_total_rows + page_num_interval) * curPage + src;
+
+                    CopyRow(workbook, worksheet, src, dst);
+
+                    if (src == 0)
+                    {
+                        worksheet.GetRow(dst).HeightInPoints = row_title_height;
+                    }
+                    else if (src < page_num_total_rows)
+                    {
+                        worksheet.GetRow(dst).HeightInPoints = row_data_height;
+                    }
+                }
+
+                if (curPage > 1 && curPage % 2 == 0)
+                {
+                    worksheet.SetRowBreak((page_num_total_rows + page_num_interval) * curPage - 1);
+                }
+            }
+
+            for (int curPage = 0; curPage < printPages.Count; curPage++)
+            {
+                IRow row;
+                decimal js = 0m;
+
+                for (int i = 0; i < printPages[curPage].Count; i++)
+                {
+                    row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_meta_headers + i);
+                    row.GetCell(0).SetCellValue(i + 1);
+                    row.GetCell(1).SetCellValue(printPages[curPage][i].ck_spmc);
+                    row.GetCell(2).SetCellValue(printPages[curPage][i].ck_ggxh);
+                    row.GetCell(3).SetCellValue(printPages[curPage][i].ck_dw);
+                    row.GetCell(4).SetCellValue(printPages[curPage][i].ck_sl);
+                    row.GetCell(5).SetCellValue(printPages[curPage][i].ck_dj);
+                    row.GetCell(6).SetCellValue(printPages[curPage][i].ck_je);
+
+                    js += decimal.Parse(printPages[curPage][i].ck_je);
+                }
+
+                //填写公司名称
+                row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 3);
+                row.GetCell(2).SetCellValue(printPages[curPage][0].ck_khmc);
+
+                //填写总金额
+                row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - page_num_meta_foots);
+                row.GetCell(6).SetCellValue(Math.Round(js, 2).ToString());
+                row.GetCell(2).SetCellValue(CurrencyBigNum.NumGetStr(System.Convert.ToDouble(Math.Round(js, 2))));
+
+                //填写日期
+                row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 1);
+                row.GetCell(5).SetCellValue(printPages[curPage][0].ck_rq);
+
+                //填写单号
+                row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval));
+                row.GetCell(5).SetCellValue("NO" + printPages[curPage][0].ck_dh);
+
+                //填写发票号
+                row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 3);
+                row.GetCell(5).SetCellValue(printSheet.invNum);
+
+                //填写姓名
+                row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - 1);
+                row.GetCell(3).SetCellValue("主管:" + printSheet.masterName);
+                row.GetCell(5).SetCellValue("验收:" + printSheet.verifierName);
+            }
+        }
+
+        #region 公共接口
+
+        public void generatePrintDoc(RukuPrintSheet printSheet)
+        {
+            generatePrintTempalte("ruku");
+
+            FileStream fs = new FileStream(Program.printTemplateRuku, FileMode.Open, FileAccess.ReadWrite);
+            HSSFWorkbook workbook = new HSSFWorkbook(fs);
+            fs.Close();
+
+            generateRukuPrintPage(printSheet, workbook);
+
+            fs = new FileStream(Program.printDoc, FileMode.Create);
+            workbook.Write(fs);
+            fs.Close();
+        }
+
+        public void generatePrintDoc(ChukuPrintSheet printSheet)
+        {
+            generatePrintTempalte("chuku");
+
+            FileStream fs = new FileStream(Program.printTemplateChuku, FileMode.Open, FileAccess.ReadWrite);
+            HSSFWorkbook workbook = new HSSFWorkbook(fs);
+            fs.Close();
+
+            generateChukuPrintPage(printSheet, workbook);
+
+            fs = new FileStream(Program.printDoc, FileMode.Create);
+            workbook.Write(fs);
+            fs.Close();
+        }
+
 		public void PrintMyExcelFile()
 		{
 
@@ -220,7 +344,11 @@ namespace XlsMerger
             File.Copy(Program.printDoc, path, true);        
         }
 
-		/// <summary>
+        #endregion
+
+        #region LibFunc
+
+        /// <summary>
 		/// HSSFRow Copy Command
 		///
 		/// Description:  Inserts a existing row into a new row, will automatically push down
@@ -318,7 +446,9 @@ namespace XlsMerger
 				}
 			}
 
-		}
+        }
 
-	}
+        #endregion
+
+    }
 }
