@@ -24,7 +24,7 @@ namespace XlsMerger
 		public string rk_ggxh { get; set; }
 		public string rk_rq { get; set; }
 
-        public string rk_fph { get; set; }
+		public string rk_fph { get; set; }
 
 		public Ruku() { }
 
@@ -42,7 +42,7 @@ namespace XlsMerger
 			this.rk_zk = (string)info.GetValue("rk_zk", typeof(string));
 			this.rk_jhje = (string)info.GetValue("rk_jhje", typeof(string));
 			this.rk_bz = (string)info.GetValue("rk_bz", typeof(string));
-            this.rk_fph = (string)info.GetValue("rk_fph", typeof(string));
+			this.rk_fph = (string)info.GetValue("rk_fph", typeof(string));
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -60,7 +60,7 @@ namespace XlsMerger
 			info.AddValue("rk_zk", this.rk_zk);
 			info.AddValue("rk_jhje", this.rk_jhje);
 			info.AddValue("rk_bz", this.rk_bz);
-            info.AddValue("rk_fph", this.rk_fph);
+			info.AddValue("rk_fph", this.rk_fph);
 		}
 
 		/*
@@ -70,7 +70,7 @@ namespace XlsMerger
 	}
 
 	[Serializable()]
-	public class RukuSheet : IEquatable<RukuSheet>, ISerializable
+	public class RukuSheet : IEquatable<RukuSheet>, ISerializable, cInfDj
 	{
 		public string filePath { get; set; }
 		public string face { get; set; }
@@ -129,11 +129,32 @@ namespace XlsMerger
 			this.face = string.Format("单据号:{0}  金额:{1}", this.sheetId, this.js_total);
 		}
 
-        public void setInvNum(string invNum) {
-            for (int i = 0; i < records.Count; i++) {
-                records[i].rk_fph = invNum;
-            }
-        }
+		/********* Interface method implementation *********/
+		public void setInvNum(string invNum)
+		{
+			for (int i = 0; i < records.Count; i++)
+			{
+				records[i].rk_fph = invNum;
+			}
+		}
+
+		/********* Interface method implementation *********/
+		public string getSheetId()
+		{
+			return sheetId;
+		}
+
+		/********* Interface method implementation *********/
+		public string getDate()
+		{
+			return records[0].rk_rq;
+		}
+
+		/********* Interface method implementation *********/
+		public string getInvNum()
+		{
+			return records[0].rk_fph;
+		}
 
 		public List<Ruku> getRecords()
 		{
@@ -167,22 +188,24 @@ namespace XlsMerger
 	}
 
 	[Serializable()]
-	public class RukuPrintSheet : ISerializable
+	public class RukuPrintSheet : ISerializable, cInfDjList
 	{
 		public List<RukuSheet> sheetList;
-		public string masterName {get; set;}
-		public string verifierName {get; set;}
+		public string masterName { get; set; }
+		public string verifierName { get; set; }
 
-		public RukuPrintSheet() {
-		
+		public RukuPrintSheet()
+		{
+
 		}
 
-		public RukuPrintSheet(List<RukuSheet> sheetList, string master_name, string verifier_name) {
+		public RukuPrintSheet(List<RukuSheet> sheetList, string master_name, string verifier_name)
+		{
 			this.sheetList = sheetList;
 			this.masterName = master_name;
 			this.verifierName = verifier_name;
 		}
-		
+
 		public RukuPrintSheet(SerializationInfo info, StreamingContext ctxt)
 		{
 			this.sheetList = (List<RukuSheet>)info.GetValue("sheet_list", typeof(List<RukuSheet>));
@@ -209,11 +232,13 @@ namespace XlsMerger
 			return records;
 		}
 		 */
-		
-		public string getJE(){
+
+		public string getJE()
+		{
 			decimal je = 0m;
 
-			foreach (RukuSheet sheet in this.sheetList) {
+			foreach (RukuSheet sheet in this.sheetList)
+			{
 				je += decimal.Parse(sheet.je_total);
 			}
 
@@ -242,6 +267,18 @@ namespace XlsMerger
 			}
 
 			return js.ToString();
+		}
+
+		/********* Interface method implementation *********/
+		public cInfDj getSheetAt(int index)
+		{
+			return sheetList[index];
+		}
+
+		/********* Interface method implementation *********/
+		public int getSize()
+		{
+			return sheetList.Count;
 		}
 	}
 }

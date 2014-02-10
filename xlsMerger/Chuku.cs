@@ -21,8 +21,9 @@ namespace XlsMerger
 		public string ck_dj { get; set; }
 		public string ck_se { get; set; }
 		public string ck_je { get; set; }
-        public string ck_xh { get; set; }
-        public string ck_bz { get; set; }
+		public string ck_xh { get; set; }
+		public string ck_bz { get; set; }
+		public string ck_fph { get; set; }
 
 		public Chuku() { }
 
@@ -38,9 +39,10 @@ namespace XlsMerger
 			this.ck_sl = (string)info.GetValue("ck_sl", typeof(string));
 			this.ck_dj = (string)info.GetValue("ck_dj", typeof(string));
 			this.ck_se = (string)info.GetValue("ck_se", typeof(string));
-            this.ck_je = (string)info.GetValue("ck_je", typeof(string));
-            this.ck_xh = (string)info.GetValue("ck_xh", typeof(string));
-            this.ck_bz = (string)info.GetValue("ck_bz", typeof(string));
+			this.ck_je = (string)info.GetValue("ck_je", typeof(string));
+			this.ck_xh = (string)info.GetValue("ck_xh", typeof(string));
+			this.ck_bz = (string)info.GetValue("ck_bz", typeof(string));
+			this.ck_fph = (string)info.GetValue("ck_fph", typeof(string));
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -57,13 +59,14 @@ namespace XlsMerger
 			info.AddValue("ck_dj", this.ck_dj);
 			info.AddValue("ck_se", this.ck_se);
 			info.AddValue("ck_je", this.ck_je);
-            info.AddValue("ck_xh", this.ck_xh);
-            info.AddValue("ck_bz", this.ck_bz);
+			info.AddValue("ck_xh", this.ck_xh);
+			info.AddValue("ck_bz", this.ck_bz);
+			info.AddValue("ck_fph", this.ck_fph);
 		}
 	}
 
 	[Serializable()]
-	public class ChukuSheet : IEquatable<ChukuSheet>, ISerializable
+	public class ChukuSheet : IEquatable<ChukuSheet>, ISerializable, cInfDj
 	{
 		public string filePath { get; set; }
 		public string face { get; set; }
@@ -122,6 +125,33 @@ namespace XlsMerger
 			this.face = string.Format("单据号:{0}  金额:{1}", this.sheetId, this.js_total);
 		}
 
+		/********* Interface method implementation *********/
+		public void setInvNum(string invNum)
+		{
+			for (int i = 0; i < records.Count; i++)
+			{
+				records[i].ck_fph = invNum;
+			}
+		}
+
+		/********* Interface method implementation *********/
+		public string getSheetId()
+		{
+			return sheetId;
+		}
+
+		/********* Interface method implementation *********/
+		public string getDate()
+		{
+			return records[0].ck_rq;
+		}
+
+		/********* Interface method implementation *********/
+		public string getInvNum()
+		{
+			return records[0].ck_fph;
+		}
+
 		public List<Chuku> getRecords()
 		{
 			return records;
@@ -154,24 +184,26 @@ namespace XlsMerger
 	}
 
 	[Serializable()]
-	public class ChukuPrintSheet : ISerializable
+	public class ChukuPrintSheet : ISerializable, cInfDjList
 	{
 		public List<ChukuSheet> sheetList;
-		public string masterName {get; set;}
-		public string verifierName {get; set;}
+		public string masterName { get; set; }
+		public string verifierName { get; set; }
 		public string invNum { get; set; }
 
-		public ChukuPrintSheet() {
-		
+		public ChukuPrintSheet()
+		{
+
 		}
 
-		public ChukuPrintSheet(List<ChukuSheet> sheetList, string master_name, string verifier_name) {
+		public ChukuPrintSheet(List<ChukuSheet> sheetList, string master_name, string verifier_name)
+		{
 			this.sheetList = sheetList;
 			this.masterName = master_name;
 			this.verifierName = verifier_name;
 			this.invNum = "";
 		}
-		
+
 		public ChukuPrintSheet(SerializationInfo info, StreamingContext ctxt)
 		{
 			this.sheetList = (List<ChukuSheet>)info.GetValue("sheet_list", typeof(List<ChukuSheet>));
@@ -187,7 +219,8 @@ namespace XlsMerger
 			info.AddValue("inv_num", this.invNum);
 		}
 
-		public string getJE(){
+		public string getJE()
+		{
 			decimal je = 0m;
 
 			foreach (ChukuSheet sheet in this.sheetList)
@@ -220,6 +253,18 @@ namespace XlsMerger
 			}
 
 			return js.ToString();
+		}
+
+		/********* Interface method implementation *********/
+		public cInfDj getSheetAt(int index)
+		{
+			return sheetList[index];
+		}
+
+		/********* Interface method implementation *********/
+		public int getSize()
+		{
+			return sheetList.Count;
 		}
 	}
 }
