@@ -24,6 +24,8 @@ namespace XlsMerger
 		public string rk_ggxh { get; set; }
 		public string rk_rq { get; set; }
 
+        public string rk_fph { get; set; }
+
 		public Ruku() { }
 
 		public Ruku(SerializationInfo info, StreamingContext ctxt)
@@ -40,6 +42,7 @@ namespace XlsMerger
 			this.rk_zk = (string)info.GetValue("rk_zk", typeof(string));
 			this.rk_jhje = (string)info.GetValue("rk_jhje", typeof(string));
 			this.rk_bz = (string)info.GetValue("rk_bz", typeof(string));
+            this.rk_fph = (string)info.GetValue("rk_fph", typeof(string));
 		}
 
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
@@ -57,6 +60,7 @@ namespace XlsMerger
 			info.AddValue("rk_zk", this.rk_zk);
 			info.AddValue("rk_jhje", this.rk_jhje);
 			info.AddValue("rk_bz", this.rk_bz);
+            info.AddValue("rk_fph", this.rk_fph);
 		}
 
 		/*
@@ -125,6 +129,12 @@ namespace XlsMerger
 			this.face = string.Format("单据号:{0}  金额:{1}", this.sheetId, this.js_total);
 		}
 
+        public void setInvNum(string invNum) {
+            for (int i = 0; i < records.Count; i++) {
+                records[i].rk_fph = invNum;
+            }
+        }
+
 		public List<Ruku> getRecords()
 		{
 			return records;
@@ -162,7 +172,6 @@ namespace XlsMerger
 		public List<RukuSheet> sheetList;
 		public string masterName {get; set;}
 		public string verifierName {get; set;}
-		public string invNum { get; set; }
 
 		public RukuPrintSheet() {
 		
@@ -172,7 +181,6 @@ namespace XlsMerger
 			this.sheetList = sheetList;
 			this.masterName = master_name;
 			this.verifierName = verifier_name;
-			this.invNum = "";
 		}
 		
 		public RukuPrintSheet(SerializationInfo info, StreamingContext ctxt)
@@ -180,14 +188,12 @@ namespace XlsMerger
 			this.sheetList = (List<RukuSheet>)info.GetValue("sheet_list", typeof(List<RukuSheet>));
 			this.masterName = (string)info.GetValue("master_name", typeof(string));
 			this.verifierName = (string)info.GetValue("verifier_name", typeof(string));
-			this.invNum = (string)info.GetValue("inv_num", typeof(string));
 		}
 		public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
 		{
 			info.AddValue("sheet_list", this.sheetList);
 			info.AddValue("master_name", this.masterName);
 			info.AddValue("verifier_name", this.verifierName);
-			info.AddValue("inv_num", this.invNum);
 		}
 
 		/*

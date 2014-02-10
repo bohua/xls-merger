@@ -12,19 +12,20 @@ namespace XlsMerger
 	{
 		private List<RukuSheet> importedRukuSheets = new List<RukuSheet>();
 		private DataTable myDt = new DataTable();
-		private string[] headers = { "进货单日期", "进货单号", "供方名称", "物资名称", "规格型号", "单位", "进货单价", "进货数量", "销售价", "折扣", "进货金额", "备注" };
+		private string[] headers = { "进货单日期", "进货单号", "供方名称", "物资名称", "规格型号", "单位", "进货单价", "进货数量", "销售价", "折扣", "进货金额", "备注", "发票号" };
 
 		private void headerCreator(System.Collections.IEnumerator rows)
 		{
 			if (myDt.Columns.Count == 0)
 			{
+                /*
 				if (rows == null)
-				{
+				{*/
 					for (int j = 0; j < headers.Length; j++)
 					{
 						DataColumn col = myDt.Columns.Add(headers[j]);
 					}
-				}
+				/*}
 				else
 				{
 					IRow headerRow = (HSSFRow)rows.Current;
@@ -34,6 +35,7 @@ namespace XlsMerger
 						DataColumn col = myDt.Columns.Add(header.ToString().Trim());
 					}
 				}
+                 * */
 			}
 		}
 
@@ -179,6 +181,7 @@ namespace XlsMerger
 					dr[9] = list[i].rk_zk;
 					dr[10] = list[i].rk_jhje;
 					dr[11] = list[i].rk_bz;
+                    dr[12] = list[i].rk_fph;
 
 					myDt.Rows.Add(dr);
 				}

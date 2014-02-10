@@ -166,7 +166,7 @@ namespace XlsMerger
 
 				//填写发票号
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + 3);
-				row.GetCell(5).SetCellValue(printSheet.invNum);
+                row.GetCell(5).SetCellValue(printPages[curPage][0].rk_fph);
 
 				//填写姓名
 				row = worksheet.GetRow(curPage * (page_num_total_rows + page_num_interval) + page_num_total_rows - 1);

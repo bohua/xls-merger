@@ -63,9 +63,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cTxtboxRukuInvNum = new System.Windows.Forms.TextBox();
             this.cLabelJE_Ruku = new System.Windows.Forms.Label();
             this.cLabelSE_Ruku = new System.Windows.Forms.Label();
             this.cLabelJS_Ruku = new System.Windows.Forms.Label();
@@ -98,6 +96,7 @@
             this.cBtnChukuPrint = new System.Windows.Forms.Button();
             this.cBtnChukuStart = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.cBtnInvNum = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -372,9 +371,8 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.label3);
+            this.panel4.Controls.Add(this.cBtnInvNum);
             this.panel4.Controls.Add(this.label1);
-            this.panel4.Controls.Add(this.cTxtboxRukuInvNum);
             this.panel4.Controls.Add(this.cLabelJE_Ruku);
             this.panel4.Controls.Add(this.cLabelSE_Ruku);
             this.panel4.Controls.Add(this.cLabelJS_Ruku);
@@ -387,15 +385,6 @@
             this.panel4.Size = new System.Drawing.Size(800, 67);
             this.panel4.TabIndex = 4;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 27);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "发票号:";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -404,14 +393,6 @@
             this.label1.Size = new System.Drawing.Size(57, 27);
             this.label1.TabIndex = 11;
             this.label1.Text = "主管:";
-            // 
-            // cTxtboxRukuInvNum
-            // 
-            this.cTxtboxRukuInvNum.Location = new System.Drawing.Point(84, 31);
-            this.cTxtboxRukuInvNum.Name = "cTxtboxRukuInvNum";
-            this.cTxtboxRukuInvNum.Size = new System.Drawing.Size(159, 34);
-            this.cTxtboxRukuInvNum.TabIndex = 10;
-            this.cTxtboxRukuInvNum.Leave += new System.EventHandler(this.cTxtboxRukuMaster_Leave);
             // 
             // cLabelJE_Ruku
             // 
@@ -460,7 +441,7 @@
             // 
             // cTxtboxRukuVerifier
             // 
-            this.cTxtboxRukuVerifier.Location = new System.Drawing.Point(491, 31);
+            this.cTxtboxRukuVerifier.Location = new System.Drawing.Point(503, 31);
             this.cTxtboxRukuVerifier.Name = "cTxtboxRukuVerifier";
             this.cTxtboxRukuVerifier.Size = new System.Drawing.Size(88, 34);
             this.cTxtboxRukuVerifier.TabIndex = 2;
@@ -469,7 +450,7 @@
             // 
             // cTxtboxRukuMaster
             // 
-            this.cTxtboxRukuMaster.Location = new System.Drawing.Point(319, 31);
+            this.cTxtboxRukuMaster.Location = new System.Drawing.Point(334, 28);
             this.cTxtboxRukuMaster.Name = "cTxtboxRukuMaster";
             this.cTxtboxRukuMaster.Size = new System.Drawing.Size(90, 34);
             this.cTxtboxRukuMaster.TabIndex = 0;
@@ -776,6 +757,18 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // cBtnInvNum
+            // 
+            this.cBtnInvNum.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cBtnInvNum.Location = new System.Drawing.Point(14, 21);
+            this.cBtnInvNum.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.cBtnInvNum.Name = "cBtnInvNum";
+            this.cBtnInvNum.Size = new System.Drawing.Size(122, 36);
+            this.cBtnInvNum.TabIndex = 7;
+            this.cBtnInvNum.Text = "设置发票号";
+            this.cBtnInvNum.UseVisualStyleBackColor = true;
+            this.cBtnInvNum.Click += new System.EventHandler(this.cBtnInvNum_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 27F);
@@ -857,9 +850,7 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dataGridView2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox cTxtboxRukuInvNum;
+        private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TabPage cTabPageChukudan;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.DataGridView dataGridView3;
@@ -879,6 +870,7 @@
 		private System.Windows.Forms.ComboBox cCbboxChuku;
 		private System.Windows.Forms.Button cBtnChukuPrint;
 		private System.Windows.Forms.Button cBtnChukuStart;
+        private System.Windows.Forms.Button cBtnInvNum;
     }
 }
 

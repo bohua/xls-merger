@@ -563,13 +563,28 @@ namespace XlsMerger
 
             this.rukuPrintSheet.sheetList = rukuSheetReader.getRukuList();
             cCbboxRuku.DataSource = rukuPrintSheet.sheetList;
-            cCbboxRuku.DisplayMember = "face";
+            cCbboxRuku.DisplayMember = @"face";
 
             cTxtboxRukuMaster.Text = rukuPrintSheet.masterName;
             cTxtboxRukuVerifier.Text = rukuPrintSheet.verifierName;
-            cTxtboxRukuInvNum.Text = rukuPrintSheet.invNum;
 
             setRukuAmounts(rukuPrintSheet.getJE(), rukuPrintSheet.getSE(), rukuPrintSheet.getJS());
+        }
+
+        private void setInvNum(){
+            var form = new XlsMerger.Forms.InvoiceForm(rukuPrintSheet);
+            var result = form.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                //this.rukuPrintSheet = form.getUpdatedRukuPrintSheet();
+                form.applyUpdate();
+                this.rukuSheetReader.setRukuList(this.rukuPrintSheet.sheetList);
+
+                refreshRukuList();
+            }
+
+            form.Dispose();
         }
 
         private void cBtnRukuStart_Click(object sender, EventArgs e)
@@ -592,6 +607,8 @@ namespace XlsMerger
             }
 
             refreshRukuList();
+
+            setInvNum();
 
             //Update tmp files
             rukuSheetWriter.saveToFile(this.rukuPrintSheet);
@@ -633,7 +650,6 @@ namespace XlsMerger
         {
             this.rukuPrintSheet.masterName = cTxtboxRukuMaster.Text;
             this.rukuPrintSheet.verifierName = cTxtboxRukuVerifier.Text;
-            this.rukuPrintSheet.invNum = cTxtboxRukuInvNum.Text;
             rukuSheetWriter.saveToFile(this.rukuPrintSheet);
         }
 
@@ -767,5 +783,10 @@ namespace XlsMerger
         }
 
         #endregion
+
+        private void cBtnInvNum_Click(object sender, EventArgs e)
+        {
+            setInvNum();
+        }
     }
 }
