@@ -110,6 +110,7 @@
 			this.cTxtInvoiceNr.Name = "cTxtInvoiceNr";
 			this.cTxtInvoiceNr.Size = new System.Drawing.Size(289, 28);
 			this.cTxtInvoiceNr.TabIndex = 13;
+			this.cTxtInvoiceNr.Leave += new System.EventHandler(this.cTxtInvoiceNr_Leave);
 			// 
 			// label2
 			// 

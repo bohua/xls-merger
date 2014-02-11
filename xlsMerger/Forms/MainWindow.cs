@@ -592,10 +592,14 @@ namespace XlsMerger
 				{
 					this.rukuSheetReader.setRukuList(this.rukuPrintSheet.sheetList);
 					refreshRukuList();
+
+					rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 				}
 				else {
 					this.chukuSheetReader.setChukuList(this.chukuPrintSheet.sheetList);
 					refreshChukuList();
+
+					chukuSheetWriter.saveToFile(this.chukuPrintSheet);
 				}
 			}
 
@@ -624,9 +628,6 @@ namespace XlsMerger
 			refreshRukuList();
 
 			setInvNum(true);
-
-			//Update tmp files
-			rukuSheetWriter.saveToFile(this.rukuPrintSheet);
 
 			setStatusRuku(status.duringImport);
 		}
@@ -744,9 +745,6 @@ namespace XlsMerger
 			setInvNum(false);
 
 			refreshChukuList();
-
-			//Update tmp files
-			chukuSheetWriter.saveToFile(this.chukuPrintSheet);
 
 			setStatusChuku(status.duringImport);
 		}
