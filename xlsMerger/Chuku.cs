@@ -111,12 +111,17 @@ namespace XlsMerger
 			decimal je = 0m;
 			decimal se = 0m;
 			decimal js = 0m;
+
+			int xh = 1;
+
 			foreach (Chuku record in this.records)
 			{
 				decimal dj = decimal.Parse(record.ck_je);
 				js += dj;
 				je += dj / 1.17m;
 				se += dj - dj / 1.17m;
+
+				record.ck_xh = xh++.ToString();
 			}
 			this.je_total = Math.Round(je, 2).ToString();
 			this.se_total = Math.Round(se, 2).ToString();

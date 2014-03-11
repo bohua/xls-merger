@@ -41,7 +41,7 @@ namespace XlsMerger
 
 		private void readSheetFile(FileStream file, string filePath)
 		{
-			int xh = 1;
+			//int xh = 1;
 			IWorkbook myWorkbook = new HSSFWorkbook(file);
 
 			ISheet sheet = myWorkbook.GetSheetAt(0);
@@ -50,7 +50,11 @@ namespace XlsMerger
 			rows.MoveNext();
 			headerCreator(rows);
 
-			ChukuSheet chukuSheet = new ChukuSheet();
+			//List<KeyValuePair<string, ChukuSheet>> chukuSheetMap= new List<KeyValuePair<string, ChukuSheet>>();
+			//List<ChukuSheet> chukuSheetList = new List<ChukuSheet>();
+			Dictionary<string, ChukuSheet> chukuDict = new Dictionary<string, ChukuSheet>();
+
+			//ChukuSheet chukuSheet = new ChukuSheet();
 
 			while (rows.MoveNext())
 			{
@@ -58,6 +62,16 @@ namespace XlsMerger
 				Chuku entity = new Chuku();
 				ICell cell;
 
+
+				//销售单号
+				cell = row.GetCell(1);
+				if (cell != null)
+				{
+					entity.ck_dh = cell.ToString().Trim();
+				}
+				else {
+					entity.ck_dh = "空";
+				}
 				//销售单日期
 				cell = row.GetCell(2);
 				if (cell != null)
@@ -72,20 +86,16 @@ namespace XlsMerger
 						entity.ck_rq = cell.ToString().Trim();
 					}
 				}
-				//销售单号
-				cell = row.GetCell(1);
-				if (cell != null)
-				{
-					entity.ck_dh = cell.ToString().Trim();
-				}
 				//客户名称
 				cell = row.GetCell(4);
 				if (cell != null)
 				{
 					entity.ck_khmc = cell.ToString().Trim();
 				}
+				/*
 				//序号
 				entity.ck_xh = xh++.ToString();
+				 */
 				//商品名称
 				cell = row.GetCell(18);
 				if (cell != null)
@@ -130,13 +140,28 @@ namespace XlsMerger
 					entity.ck_bz = cell.ToString().Trim();
 				}
 
-				chukuSheet.Push(entity);
+				if (chukuDict.ContainsKey(entity.ck_dh))
+				{
+					chukuDict[entity.ck_dh].Push(entity);
+				}
+				else
+				{
+					ChukuSheet chukuSheet = new ChukuSheet();
+					chukuSheet.Push(entity);
+					chukuDict.Add(entity.ck_dh, chukuSheet);
+				}
 			}
 
 
-			chukuSheet.filePath = filePath;
-			chukuSheet.buildSheet();
-			pushImportedEntity(chukuSheet);
+			foreach (var pair in chukuDict) {
+				ChukuSheet chukuSheet = pair.Value;
+
+				chukuSheet.filePath = filePath;
+				chukuSheet.buildSheet();
+				pushImportedEntity(chukuSheet);
+			}
+			
+			
 		}
 		private void pushImportedEntity(ChukuSheet sheet)
 		{
